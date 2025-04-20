@@ -1,0 +1,59 @@
+header.bg-white.shadow-md.sticky.top-0.z-50
+  .px-4.py-2.flex.items-center.w-full
+    // Logo bên trái
+    = link_to "/", class: "text-5xl font-bold flex items-center", style: "color: #3bb4b8;" do
+      i.fa-solid.fa-bolt.mr-1(style="color: #3bb4b8")
+      | TomoShop
+
+    // Toàn bộ phần còn lại nằm bên phải
+    .flex.items-center.ml-auto.space-x-6
+      // NAV
+      nav.hidden.md:flex.items-center.space-x-8.text-sm.text-gray-700
+        // Sản phẩm
+        .relative.group
+          a href="#" class="hover:text-blue-600 font-medium flex items-center gap-1"
+            i.fa-solid.fa-box-open.text-base
+            span Sản phẩm
+
+          .absolute.left-0.mt-2.w-40.bg-white.shadow-md.rounded-md.opacity-0.group-hover:opacity-100.group-hover:visible.invisible.transition-all
+            ul.p-2.space-y-1.text-sm
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Laptop
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Điện thoại
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Tivi
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Phụ kiện
+
+        // Giới thiệu
+        a href="#" class="hover:text-blue-600 font-medium flex items-center gap-1"
+          i.fa-solid.fa-circle-info.text-base
+          span Giới thiệu
+
+        // Liên hệ
+        a href="#" class="hover:text-blue-600 font-medium flex items-center gap-1"
+          i.fa-solid.fa-envelope.text-base
+          span Liên hệ
+
+      // SEARCH
+      .w-128
+        form action="#" method="get" class="relative"
+          input[type="text" name="q" placeholder="Tìm sản phẩm..." class="w-full px-3 py-1.5 border rounded-full shadow-sm focus:outline-none focus:ring focus:border-blue-300 text-sm"]
+          i.fa-solid.fa-magnifying-glass.absolute.right-3.top-2.5.text-gray-400
+
+      // ICONS
+      .flex.items-center.space-x-4
+        a href="#" class="text-gray-600 hover:text-blue-600"
+          i.fa-solid.fa-cart-shopping.text-xl
+
+        .relative.group
+          button class="text-gray-600 hover:text-blue-600 focus:outline-none"
+            i.fa-solid.fa-user.text-xl
+
+          .absolute.right-0.mt-2.w-40.bg-white.shadow-md.rounded-md.opacity-0.group-hover:opacity-100.group-hover:visible.invisible.transition-all
+            ul.p-2.text-sm
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Đăng ký
+              li
+                a href="#" class="block px-4 py-2 hover:bg-gray-100" Đăng nhập
