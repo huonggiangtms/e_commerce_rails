@@ -1,0 +1,33 @@
+.min-h-screen.bg-gradient-to-r.from-white.via-sky-100.to-cyan-100.flex.items-center.justify-center
+  section.max-w-4xl.mx-auto.bg-white.rounded-lg.shadow-md.mt-10.flex
+    .w-full.md:w-1/2.pr-8.p-8
+      .text-center.mb-6
+        a.flex.items-center.justify-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 href="#"
+          i.fas.fa-robot.text-cyan-500
+          span ZShop
+
+      h2.text-2xl.font-bold.mb-6.text-center.text-gray-800  Resend confirmation email
+
+      = form_with(model: resource, url: user_confirmation_path, local: true, html: { class: "space-y-6" }) do |f|
+        = render "devise/shared/error_messages", resource: resource
+
+        .form-group
+          = f.label :email, class: "block text-sm font-medium text-gray-700"
+          = f.email_field :email,
+              autofocus: true,
+              autocomplete: "email",
+              value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email),
+              class: "w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+
+        .actions
+          = f.submit "Resend confirmation email",
+              class: "w-full bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-md transition"
+
+      .mt-6.text-center
+        = link_to "Chưa nhận được email xác nhận?", new_user_confirmation_path, class: "text-sm text-blue-600 hover:underline"
+
+      .mt-4.text-center.text-sm.text-gray-600
+        = render "devise/shared/links"
+
+    .w-full.md:w-1/2
+      img src="https://gongangshop.vn/wp-content/uploads/2024/07/Loa-bluetooth-phi-hanh-gia.webp" alt="Tech Image" class="w-full h-full object-cover shadow-lg rounded-tr-lg rounded-br-lg"

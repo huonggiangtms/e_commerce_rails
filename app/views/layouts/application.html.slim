@@ -20,10 +20,23 @@ html
     = stylesheet_link_tag :app
     = vite_client_tag
     = vite_javascript_tag 'application'
-  body.bg-gray-100.flex.flex-col.min-h-screen
-    = render 'shared/header'
 
-    main.flex-grow
-      = yield
+  - is_auth_page = devise_controller?
+  - is_admin_area = controller_path.starts_with?('admin/') && user_signed_in? && current_user.has_role?(:admin)
 
-    = render 'shared/footer'
+  body.min-h-screen.flex.flex-col
+    - if is_admin_area
+      = render 'admin/shared/admin_sidebar'
+
+      main.flex-1.ml-64.px-6.py-8.bg-gray-50
+        = yield
+    - else
+      - unless is_auth_page
+        header
+          = render 'shared/header'
+
+      main.flex-1
+        = yield
+
+      - unless is_auth_page
+        = render 'shared/footer'
