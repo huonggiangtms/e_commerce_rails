@@ -14,8 +14,8 @@ class Ability
       can :manage, Order     # User có thể tạo, chỉnh sửa và thanh toán đơn hàng
     else
       # Guest chưa đăng nhập vẫn xem được sản phẩm và danh mục
-      can :read, Product     # Guest có thể xem sản phẩm
-      can :read, Category    # Guest có thể xem danh mục sản phẩm
+      can :read, Product
+      can :read, Category
     end
   end
 end
