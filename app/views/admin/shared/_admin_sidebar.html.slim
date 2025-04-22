@@ -1,0 +1,24 @@
+aside.sidebar.bg-gray-800.text-white.w-64.min-h-screen.p-6.fixed
+  a.flex.items-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600.mb-8
+      i.fas.fa-robot.text-cyan-500
+      span ZShop
+
+  ul.space-y-4
+    li
+      = link_to 'Dashboard', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Crawl', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Products', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Categories', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Question', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Users', admin_users_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Orders', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li
+      = link_to 'Banner', admin_root_path, class: 'block hover:text-blue-400 transition'
+    li.mt-6.pt-4.border-t.border-gray-700
+      = link_to '← Back to site', root_path, class: 'block text-sm text-gray-300 hover:text-white transition'
