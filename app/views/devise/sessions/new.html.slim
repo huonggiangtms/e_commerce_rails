@@ -1,0 +1,37 @@
+.min-h-screen.bg-gradient-to-r.from-white.via-sky-100.to-cyan-100.flex.items-center.justify-center
+  section.max-w-4xl.mx-auto.bg-white.rounded-lg.shadow-md.mt-10.flex
+
+    .w-full.md:w-1/2.pr-8.p-8
+      .text-center.mb-6
+        a.flex.items-center.justify-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 href="#"
+          i.fas.fa-robot.text-cyan-500
+          span ZShop
+
+
+      = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-6" }) do |f|
+        = render "devise/shared/error_messages", resource: resource
+
+        .form-group
+          = f.label :email, class: "block text-sm font-medium text-gray-700"
+          = f.email_field :email, autofocus: true, autocomplete: "email", class: "w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+
+        .form-group
+          = f.label :password, class: "block text-sm font-medium text-gray-700"
+          = f.password_field :password, autocomplete: "current-password", class: "w-full mt-1 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+
+        - if devise_mapping.rememberable?
+          .flex.items-center.space-x-2
+            = f.check_box :remember_me, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            = f.label :remember_me, class: "text-sm text-gray-600"
+
+        .flex.justify-between.items-center
+          = f.submit "Log in", class: "bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded transition"
+          = link_to root_path, class: "text-sm text-gray-600 hover:text-gray-800 flex items-center" do
+            i.fas.fa-arrow-left.mr-1
+            | Back
+
+      .mt-4.text-center.text-sm.text-gray-600
+        = render "devise/shared/links"
+
+    .w-full.md:w-1/2
+      img src="https://gongangshop.vn/wp-content/uploads/2024/07/Loa-bluetooth-phi-hanh-gia.webp" alt="Tech Image"  class="w-full h-full object-cover shadow-lg rounded-tr-lg rounded-br-lg"
