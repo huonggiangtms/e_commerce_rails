@@ -53,3 +53,5 @@ gem "devise"
 gem "rolify"
 
 gem "cancancan"
+
+gem 'httparty'
