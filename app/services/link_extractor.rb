@@ -1,5 +1,5 @@
-require 'httparty'
-require 'nokogiri'
+require "httparty"
+require "nokogiri"
 
 class LinkExtractor
   def initialize(url)
@@ -14,9 +14,9 @@ class LinkExtractor
     html = response.body
     doc = Nokogiri::HTML(html)
 
-    doc.css('a[href]').map do |a|
+    doc.css("a[href]").map do |a|
       begin
-        href = a['href']
+        href = a["href"]
         URI.join(@url, href).to_s
       rescue
         nil

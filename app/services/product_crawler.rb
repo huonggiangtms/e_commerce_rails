@@ -85,6 +85,6 @@ class ProductCrawler
   end
 
   def extract_price(price_str)
-    price_str.gsub(/[^\d]/, '').to_i
+    price_str.gsub(/[^\d]/, "").to_i
   end
 end
