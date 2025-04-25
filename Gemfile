@@ -55,7 +55,10 @@ gem "rolify"
 gem "cancancan"
 
 gem "httparty"
+<<<<<<< HEAD
 
 gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "redis"
+=======
+>>>>>>> feature/crawl-product-save-db
