@@ -1,4 +1,4 @@
-require 'sidekiq-scheduler'
+require "sidekiq-scheduler"
 
 Sidekiq.configure_server do |config|
   schedule_file = "config/sidekiq.yml"

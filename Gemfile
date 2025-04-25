@@ -54,8 +54,8 @@ gem "rolify"
 
 gem "cancancan"
 
-gem 'httparty'
+gem "httparty"
 
-gem 'sidekiq'
-gem 'sidekiq-scheduler'
-gem 'redis'
+gem "sidekiq"
+gem "sidekiq-scheduler"
+gem "redis"

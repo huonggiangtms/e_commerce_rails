@@ -1,4 +1,4 @@
-require 'httparty'
+require "httparty"
 
 class AiStudioClient
   include HTTParty
@@ -48,19 +48,19 @@ class AiStudioClient
       response = self.class.post(
         "/#{@version}/models/#{@model}:generateContent",
         query: { key: @api_key },
-        headers: { 'Content-Type' => 'application/json' },
+        headers: { "Content-Type" => "application/json" },
         body: prompt.to_json
       )
 
       if response.code == 200
         raw_text = response.parsed_response.dig("candidates", 0, "content", "parts", 0, "text")
-        return parse_response_text(raw_text)
+        parse_response_text(raw_text)
       elsif response.code == 429
         retry_delay = extract_retry_delay(response) || 30
         raise "Quota exceeded. Retrying after #{retry_delay}s..."
       else
         Rails.logger.error("AI Product API Error: #{response.code} - #{response.body}")
-        return nil
+        nil
       end
 
     rescue => e
@@ -73,7 +73,7 @@ class AiStudioClient
         retry
       else
         Rails.logger.error("Thử lại nhiều lần vẫn lỗi: #{e.message}")
-        return nil
+        nil
       end
     end
   end
@@ -103,19 +103,19 @@ class AiStudioClient
       response = self.class.post(
         "/#{@version}/models/#{@model}:generateContent",
         query: { key: @api_key },
-        headers: { 'Content-Type' => 'application/json' },
+        headers: { "Content-Type" => "application/json" },
         body: prompt.to_json
       )
 
       if response.code == 200
         raw_text = response.parsed_response.dig("candidates", 0, "content", "parts", 0, "text")
-        return raw_text.split("\n").map(&:strip).reject(&:blank?)
+        raw_text.split("\n").map(&:strip).reject(&:blank?)
       elsif response.code == 429
         retry_delay = extract_retry_delay(response) || 30
         raise "Quota exceeded. Retrying after #{retry_delay}s..."
       else
         Rails.logger.error("AI Filter API Error: #{response.code} - #{response.body}")
-        return []
+        []
       end
     rescue => e
       if retries < 2
@@ -127,7 +127,7 @@ class AiStudioClient
         retry
       else
         Rails.logger.error("Thử lại nhiều lần vẫn lỗi: #{e.message}")
-        return []
+        []
       end
     end
   end
