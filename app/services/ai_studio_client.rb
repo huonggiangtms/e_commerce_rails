@@ -5,7 +5,7 @@ class AiStudioClient
   base_uri "https://generativelanguage.googleapis.com"
 
   def initialize
-    @api_key = Rails.application.credentials.crawler_api_key
+    @api_key = Rails.application.credentials.ai_api[:crawler_api_key]
     @model = "gemini-2.0-flash"
     @version = "v1beta"
   end
