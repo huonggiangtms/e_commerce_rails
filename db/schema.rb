@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_24_065246) do
+ActiveRecord::Schema[8.0].define(version: 2025_04_26_021058) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "categories", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "crawl_jobs", force: :cascade do |t|
     t.string "url"
@@ -34,6 +40,20 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_065246) do
     t.string "image_url"
     t.string "source_url"
     t.index ["source_url"], name: "index_crawled_products_on_source_url", unique: true
+  end
+
+  create_table "products", force: :cascade do |t|
+    t.string "name"
+    t.text "description"
+    t.decimal "price"
+    t.integer "stock"
+    t.string "image_url"
+    t.bigint "category_id", null: false
+    t.bigint "crawled_product_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["category_id"], name: "index_products_on_category_id"
+    t.index ["crawled_product_id"], name: "index_products_on_crawled_product_id"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -70,4 +90,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_24_065246) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
+
+  add_foreign_key "products", "categories"
+  add_foreign_key "products", "crawled_products"
 end

@@ -1,0 +1,20 @@
+h1.text-2xl.font-bold.mb-6.text-gray-800.text-center
+  | Sửa Crawl Job
+
+.bg-white.shadow-md.rounded-lg.p-6.max-w-xl.mx-auto
+  = form_with model: [:admin, @crawl_job], local: true do |f|
+    .mb-5
+      = f.label :url, "URL sản phẩm", class: "block text-sm font-medium text-gray-700 mb-1"
+      = f.text_field :url, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none", required: true
+
+    .mb-5
+      = f.label :schedule, "Thời gian chạy", class: "block text-sm font-medium text-gray-700 mb-1"
+      = f.select :schedule, [['1 AM', 'every_1am'], ['8 AM', 'every_8am'], ['5 PM', 'every_5pm'], ['5 Min', 'every_5min']], {}, class: "w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none", required: true
+
+    .mb-5.flex.items-center.space-x-2
+      = f.check_box :active, class: "h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+      = f.label :active, "Kích hoạt", class: "text-sm font-medium text-gray-700"
+
+    .flex.justify-between.items-center.mt-6
+      = link_to "← Quay lại danh sách", admin_crawl_jobs_path, class: "text-blue-600 hover:underline text-sm font-medium"
+      = f.submit "Cập nhật Crawl Job", class: "bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold px-5 py-2 rounded-md shadow-sm transition duration-150 ease-in-out"
