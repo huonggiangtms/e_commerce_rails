@@ -9,13 +9,13 @@ h1.text-3xl.font-semibold.mb-10.text-gray-900.text-center Chỉnh sửa sản ph
 
       .form-group
         = f.label :description, 'Mô tả', class: 'block text-sm font-medium text-gray-700'
-        = f.text_area :description, rows: 6, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
+        = f.text_area :description, rows: 10, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
 
+    .space-y-6
       .form-group
         = f.label :price, 'Giá', class: 'block text-sm font-medium text-gray-700'
         = f.number_field :price, step: 1000, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
 
-    .space-y-6
       .form-group
         = f.label :image_url, 'URL Hình ảnh', class: 'block text-sm font-medium text-gray-700'
         = f.text_field :image_url, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
@@ -23,6 +23,10 @@ h1.text-3xl.font-semibold.mb-10.text-gray-900.text-center Chỉnh sửa sản ph
       .form-group
         = f.label :category_name, 'Tên danh mục', class: 'block text-sm font-medium text-gray-700'
         = f.text_field :category_name, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
+
+      .form-group
+        = f.label :stock, 'Số lượng', class: 'block text-sm font-medium text-gray-700'
+        = f.number_field :stock, class: 'w-full mt-2 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition duration-300'
 
   .flex.justify-between.mt-8
     = link_to admin_crawled_products_path, class: 'inline-flex.items-center.text-sm.text-gray-600.hover:text-gray-800.transition' do
