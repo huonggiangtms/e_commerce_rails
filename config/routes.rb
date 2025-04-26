@@ -17,5 +17,6 @@ Rails.application.routes.draw do
         post :crawl_manual
       end
     end
+    resources :categories
   end
 end

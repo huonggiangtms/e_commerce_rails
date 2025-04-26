@@ -1,0 +1,11 @@
+h1.text-2xl.font-semibold.text-gray-700.mb-6.text-center Tạo danh mục mới
+
+div.bg-white.shadow-md.rounded-2xl.p-8.max-w-xl.mx-auto
+  = form_with model: [:admin, @category], local: true do |f|
+    div.mb-4
+      = f.label :name, "Tên danh mục", class: 'block text-sm font-medium text-gray-700'
+      = f.text_field :name, class: 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-sky-300 focus:outline-none'
+
+    div.mt-6.flex.justify-between.items-center
+      = link_to '← Quay lại', admin_categories_path, class: 'text-sm text-gray-600 hover:underline'
+      = f.submit 'Tạo mới', class: 'bg-sky-300 hover:bg-sky-400 text-white font-semibold px-4 py-2 rounded-lg transition'

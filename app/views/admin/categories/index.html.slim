@@ -1,0 +1,23 @@
+div.relative.mb-6
+  h1.text-3xl.font-bold.text-gray-700.text-center Danh sách sản phẩm crawl được
+  = link_to 'Tạo mới', new_admin_category_path, class: ' text-white font-semibold py-2 px-4 rounded-lg bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 transition absolute right-0 top-0 mt-2 mr-40'
+div.overflow-x-auto.mx-auto.max-w-4xl
+  table.min-w-full.bg-white.shadow.rounded-lg.overflow-hidden
+    thead.bg-sky-300.text-gray-700.uppercase.text-sm
+      tr
+        th.px-6.py-4.text-left.font-semibold.w-1/3 Tên
+        th.px-6.py-4.text-left.font-semibold.w-1/4 Ngày tạo
+        th.px-6.py-4.text-center.font-semibold.w-1/4 Hành động
+
+    tbody
+      - @categories.each do |cate|
+        tr.border-b.border-gray-200.hover:bg-sky-50
+          td.px-6.py-4.truncate.font-normal.text-gray-700= cate.name
+          td.px-6.py-4.font-normal.text-gray-600= cate.created_at.strftime('%d/%m/%Y')
+          td.px-6.py-4.flex.items-center.justify-center.space-x-4
+            = link_to admin_category_path(cate), class: 'text-sky-500 hover:text-sky-600', title: 'Xem' do
+              i.fas.fa-eye
+            = link_to edit_admin_category_path(cate), class: 'text-yellow-400 hover:text-yellow-500', title: 'Chỉnh sửa' do
+              i.fas.fa-pen
+            = button_to admin_category_path(cate), method: :delete, data: { turbo_confirm: 'Bạn có chắc muốn xoá sản phẩm này không?' }, class: 'text-red-400 hover:text-red-500' do
+              i.fas.fa-trash
