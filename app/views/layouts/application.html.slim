@@ -40,3 +40,6 @@ html
 
       - unless is_auth_page
         = render 'shared/footer'
+  - if flash[:notice] || flash[:alert]
+    div data-controller="flash" id="flash" class="fixed top-5 right-5 z-50 px-4 py-3 rounded-lg shadow-lg text-white transition-opacity duration-300" class=(flash[:notice] ? "bg-green-500" : "bg-red-500")
+      = flash[:notice] || flash[:alert]
