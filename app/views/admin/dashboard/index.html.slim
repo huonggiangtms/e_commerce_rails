@@ -13,16 +13,17 @@ div.p-6.bg-white.rounded-xl.shadow-lg
 
   div.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
     / Crawl
-    = render 'admin/shared/dashboard_card', title: 'Quản lý Crawl', icon: 'fas fa-robot', color: 'yellow', description: 'Theo dõi và xử lý dữ liệu được crawl từ nguồn ngoài.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý Crawl', icon: 'fas fa-robot', color: 'yellow', description: 'Theo dõi và xử lý dữ liệu được crawl từ nguồn ngoài.', link_path: admin_crawl_jobs_path
 
     / Sản phẩm
-    = render 'admin/shared/dashboard_card', title: 'Quản lý sản phẩm', icon: 'fas fa-box-open', color: 'green', description: 'Kiểm duyệt, chỉnh sửa hoặc xoá sản phẩm.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý sản phẩm', icon: 'fas fa-box-open', color: 'green', description: 'Kiểm duyệt, chỉnh sửa hoặc xoá sản phẩm.', link_path: admin_root_path
 
     / Danh mục
-    = render 'admin/shared/dashboard_card', title: 'Quản lý danh mục', icon: 'fas fa-folder-open', color: 'purple', description: 'Tạo, chỉnh sửa hoặc xoá danh mục sản phẩm.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý danh mục', icon: 'fas fa-folder-open', color: 'purple', description: 'Tạo, chỉnh sửa hoặc xoá danh mục sản phẩm.', link_path: admin_root_path
 
     / Banner
-    = render 'admin/shared/dashboard_card', title: 'Quản lý Banner', icon: 'fas fa-images', color: 'indigo', description: 'Thêm, chỉnh sửa hoặc xoá banner quảng cáo.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý Banner', icon: 'fas fa-images', color: 'indigo', description: 'Thêm, chỉnh sửa hoặc xoá banner quảng cáo.', link_path: admin_root_path
+
 
   / Quản lý người dùng, hệ thống
   h2.text-lg.font-semibold.text-gray-600.mt-10.mb-4.flex.items-center.gap-2
@@ -31,10 +32,10 @@ div.p-6.bg-white.rounded-xl.shadow-lg
 
   div.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
     / Người dùng
-    = render 'admin/shared/dashboard_card', title: 'Quản lý người dùng', icon: 'fas fa-users', color: 'blue', description: 'Xem, chỉnh sửa, phân quyền người dùng.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý người dùng', icon: 'fas fa-users', color: 'blue', description: 'Xem, chỉnh sửa, phân quyền người dùng.', link_path: admin_root_path
 
     / Đơn hàng
-    = render 'admin/shared/dashboard_card', title: 'Quản lý đơn hàng', icon: 'fas fa-shopping-cart', color: 'red', description: 'Xem và xử lý đơn đặt hàng của khách.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý đơn hàng', icon: 'fas fa-shopping-cart', color: 'red', description: 'Xem và xử lý đơn đặt hàng của khách.', link_path: admin_root_path
 
     / Câu hỏi
-    = render 'admin/shared/dashboard_card', title: 'Quản lý câu hỏi', icon: 'fas fa-question-circle', color: 'pink', description: 'Theo dõi và phản hồi các câu hỏi của khách hàng.'
+    = render 'admin/shared/dashboard_card', title: 'Quản lý câu hỏi', icon: 'fas fa-question-circle', color: 'pink', description: 'Theo dõi và phản hồi các câu hỏi của khách hàng.', link_path: admin_root_path

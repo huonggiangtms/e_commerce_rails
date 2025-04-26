@@ -1,0 +1,37 @@
+div.flex.items-center.justify-between.mb-6
+  h1.text-3xl.font-bold.text-gray-800.mx-auto
+    | Danh sách Crawl Jobs
+
+  = link_to new_admin_crawl_job_path, class: 'inline-flex items-center bg-gradient-to-r from-cyan-400 to-blue-500 text-white text-sm px-4 py-1 rounded-lg shadow transform transition duration-300 ease-in-out hover:scale-105' do
+    i.fas.fa-plus.mr-2.text-lg
+    | Crawl Job
+
+table.table-auto.w-full.shadow-md.rounded-lg.overflow-hidden
+  thead.bg-sky-300.text-sky-900
+    tr
+      th.text-left.px-6.py-3.text-sm.font-semibold
+        | ID
+      th.text-left.px-6.py-3.text-sm.font-semibold
+        | URL
+      th.text-left.px-6.py-3.text-sm.font-semibold
+        | Lịch trình
+      th.text-left.px-6.py-3.text-sm.font-semibold
+        | Trạng thái
+      th.text-left.px-6.py-3.text-sm.font-semibold
+        | Thao tác
+  tbody
+    - @crawl_jobs.each do |job|
+      tr.border-b.border-gray-200.hover:bg-gray-50
+        td.px-6.py-4.text-sm.text-gray-700
+          = job.id
+        td.px-6.py-4.text-sm.text-blue-700.truncate.max-w-xs
+          = job.url
+        td.px-6.py-4.text-sm.text-gray-700
+          = job.schedule
+        td.px-6.py-4.text-sm
+          = job.active ? "Đang chạy" : "Tạm dừng"
+        td.px-6.py-4.text-sm.flex.space-x-4
+          = link_to edit_admin_crawl_job_path(job), class: 'text-yellow-500 hover:text-yellow-700' do
+            i.fas.fa-edit.text-lg
+          = button_to admin_crawl_job_path(job), method: :delete, data: { confirm: "Bạn có chắc chắn muốn xoá?" }, form: { class: "inline" }, class: "text-red-500 hover:text-red-700 bg-transparent border-0 p-0" do
+            i.fas.fa-trash.text-lg

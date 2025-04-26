@@ -1,0 +1,25 @@
+:concurrency: 5
+
+:scheduler:
+  :enabled: true
+  :schedule:
+    crawl_1am:
+      cron: "0 1 * * *"
+      class: "RunCrawlJobsByScheduleJob"
+      args:
+        - every_1am
+    crawl_8am:
+      cron: "0 8 * * *"
+      class: "RunCrawlJobsByScheduleJob"
+      args:
+        - every_8am
+    crawl_5pm:
+      cron: "0 17 * * *"
+      class: "RunCrawlJobsByScheduleJob"
+      args:
+        - every_5pm
+    crawl_5min:
+      cron: "*/5 * * * *"
+      class: "RunCrawlJobsByScheduleJob"
+      args:
+        - every_5min
