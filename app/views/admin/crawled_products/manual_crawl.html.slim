@@ -1,0 +1,10 @@
+h1.text-3xl.font-bold.text-center.text-gray-800.mb-10 Crawl sản phẩm thủ công
+
+= form_with url: crawl_manual_admin_crawled_products_path, method: :post, local: true, class: 'max-w-xl mx-auto bg-white p-8 rounded-2xl shadow-lg space-y-6' do
+  .space-y-2
+    = label_tag :url, 'URL trang web cần crawl', class: 'block text-sm font-medium text-gray-700'
+    = text_field_tag :url, '', placeholder: 'https://hoanghamobile.com/…', class: 'w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-400 focus:outline-none'
+
+  .flex.justify-between.items-center.pt-4
+    = link_to '← Quay lại danh sách', admin_crawled_products_path, class: 'text-sm text-sky-500 hover:underline'
+    = submit_tag 'Bắt đầu Crawl', class: 'px-6 py-3 bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-500 hover:to-sky-600 text-white font-semibold rounded-lg shadow-md transition-all'

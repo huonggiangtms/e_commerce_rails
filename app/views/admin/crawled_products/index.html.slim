@@ -1,0 +1,48 @@
+div.flex.items-center.justify-between.mb-4
+  h1.text-2xl.font-semibold.text-gray-700.mx-auto Danh sách sản phẩm crawl được
+  = form_with(url: admin_crawled_products_path, method: :get) do |f|
+    .flex.items-center
+      = f.select :status, options_for_select([['Tất cả', ''], ['Chờ duyệt', 'pending'], ['Đã duyệt', 'approved']], params[:status]), {}, class: 'px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300 text-sm'
+      = f.submit 'Lọc', class: 'ml-2 px-4 py-1 bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-500 hover:to-sky-600 text-white rounded-md text-sm'
+
+table.table-fixed.w-full.bg-white.shadow-sm.rounded-lg.overflow-hidden
+  thead.bg-sky-300.text-gray-600.uppercase.text-sm
+    tr
+      th.px-6.py-3.w-64.font-normal.text-left Tên
+      th.px-6.py-3.w-32.font-normal.text-left Giá
+      th.px-6.py-3.w-40.font-normal.text-left Danh mục
+      th.px-6.py-3.w-32.font-normal.text-left Ngày crawl
+      th.px-6.py-3.w-32.font-normal.text-left Trạng thái
+      th.px-6.py-3.w-48.font-normal.text-left Hành động
+
+  tbody
+    - @crawled_products.each do |product|
+      tr.border-b.hover:bg-gray-50.border-gray-200
+        td.px-6.py-4.truncate.overflow-hidden.whitespace-nowrap.font-normal= product.name
+        td.px-6.py-4.font-normal= number_to_currency(product.price, unit: '₫', precision: 0)
+        td.px-6.py-4.font-normal= product.category_name
+        td.px-6.py-4.font-normal= product.created_at.strftime('%d/%m/%Y')
+
+        td.px-6.py-4.font-normal.capitalize
+          - status_class = ''
+          - if product.status == 'pending'
+            - status_class = 'bg-yellow-200 text-yellow-800'
+          - elsif product.status == 'approved'
+            - status_class = 'bg-green-200 text-green-800'
+          - elsif product.status == 'rejected'
+            - status_class = 'bg-red-200 text-red-800'
+          - else
+            - status_class = 'bg-gray-200 text-gray-800'  # Default class if no status
+
+          span.inline-block.py-1.px-3.rounded-full class=status_class
+            = product.status || 'pending'
+
+        td.px-6.py-4.flex.items-center.gap-3.text-lg.font-normal
+          = link_to admin_crawled_product_path(product), class: 'text-blue-500 hover:text-blue-600', title: 'Xem' do
+            i.fas.fa-eye
+          = link_to edit_admin_crawled_product_path(product), class: 'text-yellow-500 hover:text-yellow-600', title: 'Chỉnh sửa' do
+            i.fas.fa-edit
+          = button_to approve_admin_crawled_product_path(product), method: :patch, class: 'text-green-500 hover:text-green-600', title: 'Duyệt', data: { turbo_confirm: 'Bạn có chắc muốn duyệt sản phẩm này?' } do
+            i.fas.fa-check-circle
+          = button_to admin_crawled_product_path(product), method: :delete, class: 'text-red-500 hover:text-red-600', title: 'Xoá', data: { turbo_confirm: 'Bạn có chắc muốn xoá sản phẩm này không?' } do
+            i.fas.fa-trash
