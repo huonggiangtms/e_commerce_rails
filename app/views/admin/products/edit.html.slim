@@ -1,0 +1,27 @@
+h1.text-3xl.font-bold.text-gray-700.text-center.mb-8 Chỉnh sửa sản phẩm
+
+div.max-w-4xl.mx-auto.bg-white.shadow-md.rounded-lg.p-8
+  = form_with model: [:admin, @product], local: true do |f|
+
+    div.mb-6
+      = f.label :name, 'Tên sản phẩm', class: 'block text-gray-700 font-semibold mb-2'
+      = f.text_field :name, class: 'w-full border border-gray-300 rounded-md p-2'
+
+    div.mb-6
+      = f.label :price, 'Giá', class: 'block text-gray-700 font-semibold mb-2'
+      = f.number_field :price, class: 'w-full border border-gray-300 rounded-md p-2'
+
+    div.mb-6
+      = f.label :category_id, 'Danh mục', class: 'block text-gray-700 font-semibold mb-2'
+      = f.collection_select :category_id, Category.all, :id, :name, { prompt: 'Chọn danh mục' }, class: 'w-full border border-gray-300 rounded-md p-2'
+
+    div.mb-6
+      = f.label :stock, 'Số lượng trong kho', class: 'block text-gray-700 font-semibold mb-2'
+      = f.number_field :stock, class: 'w-full border border-gray-300 rounded-md p-2'
+
+    div.mb-6
+      = f.label :image_url, 'Link ảnh', class: 'block text-gray-700 font-semibold mb-2'
+      = f.text_field :image_url, class: 'w-full border border-gray-300 rounded-md p-2', id: 'image_url_input'
+
+    div.flex.justify-end.mt-8
+      = f.submit 'Cập nhật', class: 'bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-6 rounded-lg'
