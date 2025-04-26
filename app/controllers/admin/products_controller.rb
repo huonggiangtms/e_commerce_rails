@@ -11,7 +11,7 @@ class Admin::ProductsController < ApplicationController
     @product = Product.new(product_params)
 
     if @product.save
-      redirect_to admin_products_path, notice: 'Tạo sản phẩm thành công!'
+      redirect_to admin_products_path, notice: "Tạo sản phẩm thành công!"
     else
       render :new, status: :unprocessable_entity
     end
