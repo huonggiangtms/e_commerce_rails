@@ -5,9 +5,9 @@ class Admin::BannersController < ApplicationController
     @banners = Banner.all
 
     if params[:active].present?
-      if params[:active] == 'true'
+      if params[:active] == "true"
         @banners = @banners.where(active: true)
-      elsif params[:active] == 'false'
+      elsif params[:active] == "false"
         @banners = @banners.where(active: false)
       end
     end
