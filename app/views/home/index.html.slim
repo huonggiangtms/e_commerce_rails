@@ -3,9 +3,16 @@
     - if @banner.image.attached?
       = image_tag url_for(@banner.image), style: "width: 100%; height: 400px; object-fit: cover;"
 
+.section.py-16.bg-white
+  .max-w-4xl.mx-auto.text-center
+    h2.text-2xl.font-bold.text-gray-800.mb-4 Về Cửa Hàng Của Chúng Tôi
+    p.text-gray-600.leading-relaxed
+      | Chào mừng bạn đến với ZShop - Nơi Mua Sắm Chất Lượng, Giá Tốt Mỗi Ngày! Chúng tôi cung cấp các sản phẩm chất lượng cao với giá cả phải chăng.
+      | Mua sắm cùng chúng tôi và tận hưởng những ưu đãi tuyệt vời mỗi ngày!
+
 .section.py-12.bg-gray-50
   .max-w-7xl.mx-auto.px-4
-    h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Our Featured Products
+    h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Những sản phẩm nổi bật
 
     .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-4.gap-6
       - @products.each do |product|
@@ -13,9 +20,7 @@
           = link_to product_path(product) do
             - if product.image_url.present?
               = image_tag product.image_url, class: "w-full h-48 object-cover"
-            - else
-              .w-full.h-48.bg-gray-200.flex.items-center.justify-center
-                span.text-gray-500.text-sm No Image
+
             .p-4
               h3.text-lg.font-semibold.text-gray-800.mb-2.truncate= product.name
               p.text-gray-600.text-sm.mb-2= truncate(product.description, length: 60)
@@ -28,12 +33,3 @@
                 - if product.stock > 0
                   = button_to root_path, method: :post, class: 'absolute bottom-0 right-0 p-3 text-white rounded-full text-sm flex items-center justify-center' do
                     i.fas.fa-cart-plus.text-2xl.text-transparent.bg-clip-text.bg-gradient-to-r.from-cyan-300.to-blue-400.hover:from-cyan-400.hover:to-blue-500
-                - else
-                  .absolute.bottom-0.right-0.bg-red-100.text-red-600.text-xs.px-2.py-1.rounded-full Out of Stock
-
-.section.py-16.bg-white
-  .max-w-4xl.mx-auto.text-center
-    h2.text-2xl.font-bold.text-gray-800.mb-4 About Our Shop
-    p.text-gray-600.leading-relaxed
-      | Welcome to our store! We provide high quality products at affordable prices.
-      | Shop with us and enjoy great deals every day!
