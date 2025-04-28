@@ -1,5 +1,5 @@
 class Admin::UsersController < ApplicationController
-  before_action :authenticate_user!
+  before_action :check_admin, if: :admin_page?
 
   def index
     @users = User.all
@@ -31,6 +31,10 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:role)
+    if current_user && current_user.has_role?(:admin)
+      params.require(:user).permit(:role)
+    else
+      params.require(:user).permit(:email, :password)
+    end
   end
 end
