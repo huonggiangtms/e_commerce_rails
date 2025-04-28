@@ -32,7 +32,7 @@ div.p-6.bg-white.rounded-xl.shadow-lg
 
   div.grid.grid-cols-1.md:grid-cols-2.lg:grid-cols-3.gap-6
     / Người dùng
-    = render 'admin/shared/dashboard_card', title: 'Quản lý người dùng', icon: 'fas fa-users', color: 'blue', description: 'Xem, chỉnh sửa, phân quyền người dùng.', link_path: admin_root_path
+    = render 'admin/shared/dashboard_card', title: 'Quản lý người dùng', icon: 'fas fa-users', color: 'blue', description: 'Xem, chỉnh sửa, phân quyền người dùng.', link_path: admin_users_path
 
     / Đơn hàng
     = render 'admin/shared/dashboard_card', title: 'Quản lý đơn hàng', icon: 'fas fa-shopping-cart', color: 'red', description: 'Xem và xử lý đơn đặt hàng của khách.', link_path: admin_root_path
