@@ -15,6 +15,12 @@ class Admin::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
+    # Cập nhật role thủ công từ form
+    if params[:role].present?
+      @user.roles = [Role.find_by(name: params[:role])] # Chỉ một role, dùng mảng để gán
+    end
+
     if @user.update(user_params)
       redirect_to admin_users_path, notice: "User updated!"
     else
@@ -31,10 +37,6 @@ class Admin::UsersController < ApplicationController
   private
 
   def user_params
-    if current_user && current_user.has_role?(:admin)
-      params.require(:user).permit(:role)
-    else
-      params.require(:user).permit(:email, :password)
-    end
+    params.require(:user).permit(:email, :password)
   end
 end
