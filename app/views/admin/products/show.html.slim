@@ -1,0 +1,44 @@
+h1.text-3xl.font-bold.text-center.text-gray-800.mb-8 Chi tiết sản phẩm
+
+div.bg-white.shadow-2xl.rounded-2xl.p-8.max-w-5xl.mx-auto.space-y-8
+
+  .grid.grid-cols-1.md:grid-cols-2.gap-8.items-start
+    .space-y-6
+      .space-y-1
+        p.text-sm.text-gray-500.font-medium Tên sản phẩm
+        h2.text-2xl.font-semibold.text-gray-800 = @product.name
+
+      .space-y-1
+        p.text-sm.text-gray-500.font-medium Giá
+        p.text-xl.font-semibold.text-green-600 = number_to_currency(@product.price, unit: '₫', precision: 0)
+
+      .space-y-1
+        p.text-sm.text-gray-500.font-medium Danh mục
+        p.text-base.font-medium.text-gray-700 = @product.category&.name
+
+      .space-y-1
+        p.text-sm.text-gray-500.font-medium
+          | Tồn kho
+          span.text-base.font-medium.text-gray-700.text-red-400.ml-2 = @product.stock
+
+      .space-y-1
+        p.text-sm.text-gray-500.font-medium Mô tả
+        p.text-gray-700.leading-relaxed.bg-gray-50.p-4.rounded-lg.shadow-inner.border.border-gray-100 = @product.description
+
+    - if @product.image_url.present?
+      .flex.justify-center
+        img.max-h-96.w-full.object-contain.rounded-xl.shadow-lg.ring-1.ring-gray-200.bg-white.p-2 src=@product.image_url alt=@product.name
+
+  hr.border-t.border-gray-300.opacity-50
+
+  .flex.flex-col.md:flex-row.justify-between.items-center.gap-4.hover:text-sky-400
+    = link_to admin_products_path, class: 'inline-flex.items-center.text-sm.text-gray-600.hover:text-gray-800.transition' do
+      i.fas.fa-arrow-left.mr-2
+      | Quay lại danh sách
+
+    .flex.items-center.gap-3.text-xl
+      = link_to edit_admin_product_path(@product), class: 'text-yellow-500 hover:text-yellow-600 transition', title: 'Chỉnh sửa' do
+        i.fas.fa-pen-to-square
+
+      = link_to admin_product_path(@product), method: :delete, data: { turbo_confirm: 'Xoá hoàn toàn sản phẩm này?' }, class: 'text-red-500 hover:text-red-600 transition', title: 'Xoá sản phẩm' do
+        i.fas.fa-trash-can
