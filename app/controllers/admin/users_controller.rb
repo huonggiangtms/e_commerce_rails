@@ -16,9 +16,8 @@ class Admin::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
-    # Cập nhật role thủ công từ form
     if params[:role].present?
-      @user.roles = [Role.find_by(name: params[:role])] # Chỉ một role, dùng mảng để gán
+      @user.roles = [Role.find_by(name: params[:role])]
     end
 
     if @user.update(user_params)
