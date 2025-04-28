@@ -17,7 +17,7 @@ class Admin::UsersController < ApplicationController
     @user = User.find(params[:id])
 
     if params[:role].present?
-      @user.roles = [Role.find_by(name: params[:role])]
+      @user.roles = [ Role.find_by(name: params[:role]) ]
     end
 
     if @user.update(user_params)
