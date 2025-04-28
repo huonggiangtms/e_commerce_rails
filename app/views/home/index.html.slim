@@ -1,1 +1,4 @@
-h1.text-2xl.font-bold This is home page of TomoShop 
+- if @banner
+  .banner
+    - if @banner.image.attached?
+      = image_tag url_for(@banner.image), style: "width: 100%; height: 400px; object-fit: cover;"

@@ -1,0 +1,44 @@
+div.relative.mb-8
+  h1.text-3xl.font-bold.text-gray-700.text-center.absolute.left-1/2.transform.-translate-x-1/2 Banner List
+
+  .flex.items-center.justify-end
+    = form_with(url: admin_banners_path, method: :get, local: true, html: { class: 'flex items-center' }) do |f|
+      = f.select :active, options_for_select([['Tất cả', ''], ['Active', 'true'], ['Inactive', 'false']], params[:active]), {}, class: 'px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300 text-sm'
+      = f.submit 'Lọc', class: 'ml-3 px-4 py-2 bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-500 hover:to-sky-600 text-white rounded-md text-sm'
+
+    = link_to 'Create New', new_admin_banner_path, class: 'ml-4 px-4 py-2 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-lg text-sm'
+    
+div.overflow-x-auto.mx-auto.max-w-7xl
+  table.min-w-full.bg-white.shadow.rounded-lg.overflow-hidden
+    thead.bg-sky-300.text-gray-700.uppercase.text-sm
+      tr
+        th.px-6.py-4.text-left.font-semibold.w-64 Image
+        th.px-6.py-4.text-left.font-semibold.w-64 Title
+        th.px-6.py-4.text-left.font-semibold.w-64 Description
+        th.px-6.py-4.text-left.font-semibold.w-16 Status
+        th.px-6.py-4.text-center.font-semibold.w-32 Actions
+
+    tbody
+      - @banners.each do |banner|
+        tr.border-b.border-gray-200.hover:bg-sky-50
+          td.px-6.py-4
+            - if banner.image.attached?
+              img.h-24.w-60.object-cover.rounded-md src=rails_blob_path(banner.image, only_path: true) alt=banner.title
+            - else
+              span.text-gray-400.text-sm No image
+
+          td.px-6.py-4.truncate.font-normal.text-gray-700= truncate(banner.title, length: 30)
+
+          td.px-6.py-4.font-normal.text-gray-600= truncate(banner.description, length: 50)
+
+          td.px-6.py-4
+            - if banner.active?
+              span.inline-block.py-1.px-3.rounded-full.bg-green-200.text-green-800.text-sm Active
+            - else
+              span.inline-block.py-1.px-3.rounded-full.bg-red-200.text-red-800.text-sm Inactive
+
+          td.px-6.py-4.flex.items-center.justify-center.gap-6.text-lg.font-normal.mt-7
+            = link_to edit_admin_banner_path(banner), method: :put, class: 'text-yellow-400 hover:text-yellow-500', title: 'Edit' do
+              i.fas.fa-pen
+            = button_to admin_banner_path(banner), method: :delete, data: { turbo_confirm: 'Are you sure you want to delete this banner?' }, class: 'text-red-400 hover:text-red-500' do
+              i.fas.fa-trash
