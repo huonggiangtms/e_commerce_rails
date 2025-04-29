@@ -1,0 +1,26 @@
+.div.max-w-xl.mx-auto.p-8.bg-white.shadow-md.rounded-lg
+  h1.text-2xl.font-semibold.text-gray-700.text-center.mb-8 User Details
+
+  .divide-y.divide-gray-200
+    .py-4
+      span.text-gray-500.text-sm.font-semibold Email:
+      span.ml-2.text-gray-700.text-base.font-normal= @user.email
+
+    .py-4
+      span.text-gray-500.text-sm.font-semibold Role:
+      span.ml-2.text-gray-700.text-base.font-normal= (@user.roles.first&.name || "User").capitalize
+
+    .py-4
+      span.text-gray-500.text-sm.font-semibold Created At:
+      span.ml-2.text-gray-700.text-base.font-normal= formatted_datetime(@user.created_at)
+
+    .py-4
+      span.text-gray-500.text-sm.font-semibold Updated At:
+      span.ml-2.text-gray-700.text-base.font-normal= formatted_datetime(@user.updated_at)
+
+  .flex.justify-between.items-center.mt-10
+    = link_to admin_users_path, class: "text-gray-600 hover:text-gray-800 text-lg flex items-center gap-2" do
+      i.fas.fa-arrow-left
+
+    = link_to edit_admin_user_path(@user), class: "text-yellow-500 hover:text-yellow-600 text-lg flex items-center gap-2" do
+      i.fas.fa-edit
