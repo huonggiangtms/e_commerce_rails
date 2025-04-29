@@ -12,11 +12,11 @@
 
     .py-4
       span.text-gray-500.text-sm.font-semibold Created At:
-      span.ml-2.text-gray-700.text-base.font-normal= @user.created_at.strftime("%b %d, %Y %H:%M")
+      span.ml-2.text-gray-700.text-base.font-normal= formatted_datetime(@user.created_at)
 
     .py-4
       span.text-gray-500.text-sm.font-semibold Updated At:
-      span.ml-2.text-gray-700.text-base.font-normal= @user.updated_at.strftime("%b %d, %Y %H:%M")
+      span.ml-2.text-gray-700.text-base.font-normal= formatted_datetime(@user.updated_at)
 
   .flex.justify-between.items-center.mt-10
     = link_to admin_users_path, class: "text-gray-600 hover:text-gray-800 text-lg flex items-center gap-2" do
