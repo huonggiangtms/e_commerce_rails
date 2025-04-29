@@ -59,3 +59,5 @@ gem "httparty"
 gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "redis"
+
+gem "ransack"
