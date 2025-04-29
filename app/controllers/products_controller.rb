@@ -3,17 +3,18 @@ class ProductsController < ApplicationController
     @categories = Category.all
     @products = Product.all
 
-  # Thêm mảng sắp xếp vào đây
   @sort_options = [
     ["Mặc định", ""],
-    ["Giá tăng dần", "price_asc"],
-    ["Giá giảm dần", "price_desc"],
+    ["Giá tăng dần", ""],
+    ["Giá giảm dần", ""],
   ]
 
   end
 
   def show
     @product = Product.find(params[:id])
+    @related_products = Product.where(category_id: @product.category_id).where.not(id: @product.id).limit(8)
+
   end
 
   private

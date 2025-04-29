@@ -1,29 +1,32 @@
-.section.py-16.bg-white
+.section.py-8.bg-white
   .max-w-7xl.mx-auto.px-4
-
     .grid.grid-cols-12.gap-8
 
-      / Sidebar lọc sản phẩm
-      .col-span-12.md:col-span-2
-        h2.text-xl.font-bold.text-gray-800.mb-6 Lọc sản phẩm
+      .col-span-12.md:col-span-3
+        .bg-gray-50.p-4.rounded-lg.shadow-md.space-y-6
 
-        = form_with url: products_path, method: :get, local: true do
-          .space-y-3
-            - @categories.each do |category|
-              label.flex.items-center.gap-2.text-gray-700
-                = check_box_tag "categories[]", category.id, params[:categories]&.include?(category.id.to_s), class: "h-4 w-4 text-blue-600"
-                span= category.name
-          = submit_tag "Áp dụng", class: "w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded-md text-sm"
+          = form_with url: products_path, method: :get, local: true do
+            .relative
+              = text_field_tag :search, params[:search], placeholder: "Tìm kiếm ...", class: "block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              .absolute.left-3.top-1/2.transform.-translate-y-1/2
+                i.fas.fa-search.text-gray-400
 
-      / Main content
-      .col-span-12.md:col-span-10
+          h2.text-lg.font-bold.text-gray-800.mt-4.mb-2.uppercase.tracking-wide Lọc sản phẩm
 
-        / Top filter bar
-        .flex.items-center.justify-start.mb-6
+          = form_with url: products_path, method: :get, local: true do
+            .space-y-3.max-h-80.overflow-y-auto.pr-1
+              - @categories.each do |category|
+                label.flex.items-center.gap-2.text-gray-700.hover:text-blue-600.cursor-pointer.transition-all
+                  = check_box_tag "categories[]", category.id, params[:categories]&.include?(category.id.to_s), class: "h-4 w-4 text-blue-600"
+                  span.text-sm= category.name
+
+            = submit_tag "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 rounded-md text-sm transition"
+
+      .col-span-12.md:col-span-9
+        .flex.justify-between.items-center.mb-6.relative.z-40
           = form_with url: products_path, method: :get, local: true do |f|
-            = f.select :sort, options_for_select(@sort_options, params[:sort]), { prompt: "Sắp xếp sản phẩm" }, class: "border border-gray-300 rounded-md text-sm px-3 py-2"
+            = f.select :sort, options_for_select(@sort_options, params[:sort]), { prompt: "Sắp xếp sản phẩm" }, class: "border border-gray-300 rounded-md text-sm px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
 
-        / Product Grid
         .grid.grid-cols-1.sm:grid-cols-2.lg:grid-cols-4.gap-6
           - @products.each do |product|
             = render partial: "shared/product_card", locals: { product: product }
