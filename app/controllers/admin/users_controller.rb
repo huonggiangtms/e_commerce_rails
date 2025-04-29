@@ -23,7 +23,7 @@ class Admin::UsersController < ApplicationController
     if @user.update(user_params)
       redirect_to admin_users_path, notice: "User updated!"
     else
-      render :edit
+      render :edit, alert: "User update failed!"
     end
   end
 
