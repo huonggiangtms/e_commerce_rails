@@ -14,22 +14,29 @@
   .max-w-7xl.mx-auto.px-4
     h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Những sản phẩm nổi bật
 
-    .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-4.gap-6
-      - @products.each do |product|
-        .bg-white.shadow-md.rounded-lg.overflow-hidden.hover:shadow-lg.transition.duration-300
-          = link_to product_path(product) do
-            - if product.image_url.present?
-              = image_tag product.image_url, class: "w-full h-48 object-cover"
+    .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-5.gap-6
+       - @products.each do |product|
+            = render partial: "shared/product_card", locals: { product: product }
 
-            .p-4
-              h3.text-lg.font-semibold.text-gray-800.mb-2.truncate= product.name
-              p.text-gray-600.text-sm.mb-2= truncate(product.description, length: 60)
-              p.text-blue-500.font-bold= number_to_currency(product.price, unit: '₫', precision: 0, delimiter: ".")
+.section.py-12.bg-gray-50
+  .max-w-7xl.mx-auto.px-4
+    h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Không Gian Sống Đầy Công Nghệ
 
-              p.text-gray-500.text-sm.mb-2
-                | Đã bán: 100
+    .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-3.gap-6
+      .banner
+        = image_tag "https://i.pinimg.com/736x/bb/80/a2/bb80a2de93b993c460f41a2928b6405c.jpg", alt: "Đồ Công Nghệ Tiện Ích", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Đồ Công Nghệ Tiện Ích
+          p.text-sm.text-gray-600 Phụ kiện và thiết bị công nghệ dành cho cuộc sống hiện đại.
 
-              .relative
-                - if product.stock > 0
-                  = button_to root_path, method: :post, class: 'absolute bottom-0 right-0 p-3 text-white rounded-full text-sm flex items-center justify-center' do
-                    i.fas.fa-cart-plus.text-2xl.text-transparent.bg-clip-text.bg-gradient-to-r.from-cyan-300.to-blue-400.hover:from-cyan-400.hover:to-blue-500
+      .banner
+        = image_tag "https://gongangshop.vn/wp-content/uploads/2024/07/Loa-bluetooth-phi-hanh-gia.webp", alt: "Sản Phẩm Công Nghệ Sáng Tạo", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Sản Phẩm Công Nghệ Sáng Tạo
+          p.text-sm.text-gray-600 Những món đồ công nghệ độc đáo, đầy cảm hứng cho không gian sống.
+
+      .banner
+        = image_tag "https://i.pinimg.com/736x/ec/57/1c/ec571cdde183bb4545f9563a0e6f90a4.jpg", alt: "Không Gian Decor Hiện Đại", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Không Gian Decor Hiện Đại
+          p.text-sm.text-gray-600 Biến góc làm việc thành nơi truyền cảm hứng với đồ decor sáng tạo.
