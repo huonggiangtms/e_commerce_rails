@@ -5,11 +5,11 @@ class ProductsController < ApplicationController
     @products = @q.result(distinct: true).includes(:category)
 
     @sort_options = [
-      ["Mặc định", nil],
-      ["Giá tăng dần", "price asc"],
-      ["Giá giảm dần", "price desc"],
-      ["Mới nhất", "created_at desc"],
-      ["Cũ nhất", "created_at asc"]
+      [ "Mặc định", nil ],
+      [ "Giá tăng dần", "price asc" ],
+      [ "Giá giảm dần", "price desc" ],
+      [ "Mới nhất", "created_at desc" ],
+      [ "Cũ nhất", "created_at asc" ]
     ]
   end
 
