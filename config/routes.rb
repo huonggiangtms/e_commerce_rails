@@ -20,5 +20,6 @@ Rails.application.routes.draw do
     end
     resources :categories
     resources :products
+    resources :banners
   end
 end
