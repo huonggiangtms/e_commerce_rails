@@ -2,3 +2,41 @@
   .banner
     - if @banner.image.attached?
       = image_tag url_for(@banner.image), style: "width: 100%; height: 400px; object-fit: cover;"
+
+.section.py-16.bg-white
+  .max-w-4xl.mx-auto.text-center
+    h2.text-2xl.font-bold.text-gray-800.mb-4 Về Cửa Hàng Của Chúng Tôi
+    p.text-gray-600.leading-relaxed
+      | Chào mừng bạn đến với ZShop - Nơi Mua Sắm Chất Lượng, Giá Tốt Mỗi Ngày! Chúng tôi cung cấp các sản phẩm chất lượng cao với giá cả phải chăng.
+      | Mua sắm cùng chúng tôi và tận hưởng những ưu đãi tuyệt vời mỗi ngày!
+
+.section.py-12.bg-gray-50
+  .max-w-7xl.mx-auto.px-4
+    h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Những sản phẩm nổi bật
+
+    .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-5.gap-6
+       - @products.each do |product|
+            = render partial: "shared/product_card", locals: { product: product }
+
+.section.py-12.bg-gray-50
+  .max-w-7xl.mx-auto.px-4
+    h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Không Gian Sống Đầy Công Nghệ
+
+    .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-3.gap-6
+      .banner
+        = image_tag "https://i.pinimg.com/736x/bb/80/a2/bb80a2de93b993c460f41a2928b6405c.jpg", alt: "Đồ Công Nghệ Tiện Ích", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Đồ Công Nghệ Tiện Ích
+          p.text-sm.text-gray-600 Phụ kiện và thiết bị công nghệ dành cho cuộc sống hiện đại.
+
+      .banner
+        = image_tag "https://gongangshop.vn/wp-content/uploads/2024/07/Loa-bluetooth-phi-hanh-gia.webp", alt: "Sản Phẩm Công Nghệ Sáng Tạo", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Sản Phẩm Công Nghệ Sáng Tạo
+          p.text-sm.text-gray-600 Những món đồ công nghệ độc đáo, đầy cảm hứng cho không gian sống.
+
+      .banner
+        = image_tag "https://i.pinimg.com/736x/ec/57/1c/ec571cdde183bb4545f9563a0e6f90a4.jpg", alt: "Không Gian Decor Hiện Đại", class: "w-full h-80 object-cover rounded-lg shadow-lg"
+        .text-center.mt-2
+          h3.text-lg.font-semibold Không Gian Decor Hiện Đại
+          p.text-sm.text-gray-600 Biến góc làm việc thành nơi truyền cảm hứng với đồ decor sáng tạo.
