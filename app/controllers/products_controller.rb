@@ -1,9 +1,9 @@
 class ProductsController < ApplicationController
   def index
-    @categories = Category.all
     @q = Product.ransack(params[:q])
     @products = @q.result(distinct: true).includes(:category)
 
+    @categories = Category.all
     @sort_options = [
       [ "Mặc định", nil ],
       [ "Giá tăng dần", "price asc" ],

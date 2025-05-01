@@ -13,14 +13,14 @@
 
           h2.text-lg.font-bold.text-gray-800.mt-4.mb-2.uppercase.tracking-wide Lọc theo danh mục
 
-          = form_with url: products_path, method: :get, local: true do
             .space-y-3.max-h-80.overflow-y-auto.pr-1
               - @categories.each do |category|
                 label.flex.items-center.gap-2.text-gray-700.hover:text-blue-600.cursor-pointer.transition-all
                   = check_box_tag "q[category_id_in][]", category.id, params.dig(:q, :category_id_in)&.include?(category.id.to_s), class: "h-4 w-4 text-blue-600"
+
                   span.text-sm= category.name
 
-            = submit_tag "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 rounded-md text-sm transition"
+            = f.submit "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 rounded-md text-sm transition"
 
       .col-span-12.md:col-span-9
 
