@@ -1,14 +1,17 @@
 class ProductsController < ApplicationController
   def index
-    @categories = Category.all
-    @products = Product.all
+  @q = Product.ransack(params[:q])
+  @products = @q.result.includes(:category)
 
+  @categories = Category.all
   @sort_options = [
-    [ "Mặc định", "" ],
-    [ "Giá tăng dần", "" ],
-    [ "Giá giảm dần", "" ]
+    ["Mặc định", nil],
+    ["Giá tăng dần", "price asc"],
+    ["Giá giảm dần", "price desc"],
+    [ "Mới nhất", "created_at desc" ],
+    [ "Cũ nhất", "created_at asc" ]
   ]
-  end
+end
 
   def show
     @product = Product.find(params[:id])

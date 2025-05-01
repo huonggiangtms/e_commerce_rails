@@ -261,6 +261,10 @@ GEM
       zeitwerk (~> 2.6)
     rainbow (3.1.1)
     rake (13.2.1)
+    ransack (4.3.0)
+      activerecord (>= 6.1.5)
+      activesupport (>= 6.1.5)
+      i18n
     rdoc (6.13.1)
       psych (>= 4.0.0)
     redis (5.0.6)
@@ -421,6 +425,7 @@ DEPENDENCIES
   propshaft
   puma (>= 5.0)
   rails (~> 8.0.2)
+  ransack
   redis
   rolify
   rubocop-rails-omakase
