@@ -5,9 +5,9 @@ class ProductsController < ApplicationController
 
     @categories = Category.all
     @sort_options = [
-      ["Mặc định", nil],
-      ["Giá tăng dần", "price asc"],
-      ["Giá giảm dần", "price desc"],
+      [ "Mặc định", nil ],
+      [ "Giá tăng dần", "price asc" ],
+      [ "Giá giảm dần", "price desc" ],
       [ "Mới nhất", "created_at desc" ],
       [ "Cũ nhất", "created_at asc" ]
     ]
