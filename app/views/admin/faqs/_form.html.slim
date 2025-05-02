@@ -1,0 +1,18 @@
+= form_with model: @faq, url: @faq.new_record? ? admin_faqs_path : admin_faq_path(@faq), local: true do |f|
+  .mb-4
+    = f.label :question, 'Câu hỏi'
+    = f.text_field :question, class: 'w-full border rounded p-2'
+
+  .mb-4
+    = f.label :answer, 'Câu trả lời'
+    = f.text_area :answer, class: 'w-full border rounded p-2'
+
+  .mb-4
+    = f.label :category, 'Danh mục'
+    = f.select :category, options_for_select(Faq::CATEGORIES.map { |k,v| [v, k] }, @faq.category), {}, class: 'w-full border rounded p-2'
+
+  .mb-4
+    = f.label :active, 'Hiển thị?'
+    = f.check_box :active
+
+  = f.submit 'Lưu', class: 'bg-blue-500 text-white px-4 py-2 rounded'

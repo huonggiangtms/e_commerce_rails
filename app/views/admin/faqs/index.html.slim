@@ -1,0 +1,26 @@
+h1.text-xl.font-bold.mb-4 Danh sách Câu hỏi Thường gặp (FAQ)
+
+= link_to 'Thêm FAQ', new_admin_faq_path, class: 'bg-blue-500 text-white px-4 py-2 rounded inline-block mb-4'
+
+/ Filter theo danh mục
+= form_with url: admin_faqs_path, method: :get, local: true, class: 'mb-4' do |f|
+  = f.label :category, 'Lọc theo danh mục:', class: 'mr-2'
+  = f.select :category, options_for_select(Faq::CATEGORIES.map { |k,v| [v, k] }, params[:category]), include_blank: 'Tất cả', class: 'border rounded px-2 py-1'
+  = f.submit 'Lọc', class: 'ml-2 px-3 py-1 bg-gray-300 rounded'
+
+table.table-auto.w-full.border
+  thead
+    tr.bg-gray-100
+      th.px-2.py-1 Câu hỏi
+      th.px-2.py-1 Danh mục
+      th.px-2.py-1 Trạng thái
+      th.px-2.py-1 Hành động
+  tbody
+    - @faqs.each do |faq|
+      tr.border-b
+        td.px-2.py-1 = faq.question
+        td.px-2.py-1 = Faq::CATEGORIES[faq.category]
+        td.px-2.py-1 = faq.active? ? 'Hiện' : 'Ẩn'
+        td.px-2.py-1
+          = link_to 'Sửa', edit_admin_faq_path(faq), class: 'text-blue-500'
+          = link_to 'Xoá', admin_faq_path(faq), method: :delete, data: { confirm: 'Bạn chắc chắn?' }, class: 'ml-2 text-red-500'
