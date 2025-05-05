@@ -1,10 +1,10 @@
 class Admin::FaqsController < ApplicationController
-  before_action :set_faq, only: [:edit, :update, :destroy]
+  before_action :set_faq, only: [ :edit, :update, :destroy ]
 
   def index
-    @category = params[:category]
-    @faqs = Faq.order(:category, :question)
-    @faqs = @faqs.where(category: @category) if @category.present?
+    @q = Faq.ransack(params[:q])
+
+    @faqs = @q.result(distinct: true).order(:category, :question)
   end
 
   def new
@@ -14,7 +14,7 @@ class Admin::FaqsController < ApplicationController
   def create
     @faq = Faq.new(faq_params)
     if @faq.save
-      redirect_to admin_faqs_path, notice: 'Đã thêm câu hỏi.'
+      redirect_to admin_faqs_path, notice: "Đã thêm câu hỏi"
     else
       render :new
     end
@@ -24,7 +24,7 @@ class Admin::FaqsController < ApplicationController
 
   def update
     if @faq.update(faq_params)
-      redirect_to admin_faqs_path, notice: 'Đã cập nhật.'
+      redirect_to admin_faqs_path, notice: "Đã cập nhật"
     else
       render :edit
     end
@@ -32,7 +32,7 @@ class Admin::FaqsController < ApplicationController
 
   def destroy
     @faq.destroy
-    redirect_to admin_faqs_path, notice: 'Đã xoá.'
+    redirect_to admin_faqs_path, notice: "Đã xoá"
   end
 
   private
