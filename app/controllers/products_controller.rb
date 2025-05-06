@@ -1,7 +1,7 @@
 class ProductsController < ApplicationController
   def index
     @q = Product.ransack(params[:q])
-    @products = @q.result.includes(:category)
+    @products = @q.result(distinct: true).includes(:category)
 
     @categories = Category.all
     @sort_options = [

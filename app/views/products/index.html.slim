@@ -5,26 +5,31 @@
       .col-span-12.md:col-span-3
         .bg-gray-50.p-4.rounded-lg.shadow-md.space-y-6
 
-          = search_form_for @q, url: products_path, method: :get, html: { class: "space-y-4" } do |f|
+          = search_form_for @q, url: products_path, method: :get, html: { class: "space-y-3" } do |f|
             .relative
-              = f.search_field :name_cont, placeholder: "Tìm kiếm ...", class: "block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
+              = f.search_field :name_cont, placeholder: "Tìm kiếm sản phẩm...", class: "block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-600"
               .absolute.left-3.top-1/2.transform.-translate-y-1/2
                 i.fas.fa-search.text-gray-400
 
-            h2.text-lg.font-bold.text-gray-800.mt-4.mb-2.uppercase.tracking-wide Lọc sản phẩm
-
+            h2.text-lg.font-bold.text-gray-800.mt-4.mb-2.uppercase.tracking-wide Lọc theo danh mục
             .space-y-3.max-h-80.overflow-y-auto.pr-1
               - @categories.each do |category|
                 label.flex.items-center.gap-2.text-gray-700.hover:text-blue-600.cursor-pointer.transition-all
-                  = check_box_tag "q[category_id_in][]", category.id, false, class: "h-4 w-4 text-blue-600"
+                  = check_box_tag "q[category_id_in][]", category.id, params.dig(:q, :category_id_in)&.include?(category.id.to_s), class: "h-4 w-4 text-blue-600"
                   span.text-sm= category.name
 
             = f.submit "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 rounded-md text-sm transition"
 
       .col-span-12.md:col-span-9
-        .flex.justify-between.items-center.mb-6.relative.z-40
-          = search_form_for @q, url: products_path, method: :get, html: { class: "flex items-center gap-3" } do |f|
-            = f.select :s, options_for_select(@sort_options, params.dig(:q, :s)), { prompt: "Sắp xếp sản phẩm" }, class: "border border-gray-300 rounded-md text-sm px-3 py-2 focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+
+        .flex.items-center.gap-2.mb-4.relative.z-40
+          = search_form_for @q, url: products_path, method: :get, html: { class: "flex items-center gap-2" } do |f|
+            - selected_sort = params.dig(:q, :s) || @q.sorts.first&.to_s
+            = f.select :s,
+              options_for_select(@sort_options, selected_sort),
+              {},
+              class: "border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+            = f.submit "Lọc", class: "px-4 py-1 text-sm bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white rounded-md"
 
         .grid.grid-cols-1.sm:grid-cols-2.lg:grid-cols-4.gap-6
           - @products.each do |product|
