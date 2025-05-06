@@ -1,0 +1,37 @@
+div.flex.items-center.justify-between.mb-4
+  h1.text-2xl.font-semibold.text-gray-700.mx-auto Danh sách câu hỏi
+  = link_to 'Thêm FAQ', new_admin_faq_path, class: 'px-4 py-2 bg-gradient-to-r from-blue-400 to-indigo-500 hover:from-blue-500 hover:to-indigo-600 text-white rounded-md text-sm'
+
+/ Form lọc
+= search_form_for @q, url: admin_faqs_path, method: :get do |f|
+  .flex.items-center.mb-4.gap-3
+    = f.select :category_eq, options_for_select(Faq::CATEGORIES.map { |k, v| [v, k] }, @q.category_eq), { include_blank: 'Tất cả danh mục' }, class: 'px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300 text-sm'
+    = f.select :active_eq, options_for_select([['Tất cả trạng thái', ''], ['Hiện', 'true'], ['Ẩn', 'false']], @q.active_eq), {}, class: 'px-3 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-300 text-sm'
+    = f.submit 'Lọc', class: 'px-4 py-1 bg-gradient-to-r from-cyan-400 to-sky-500 hover:from-cyan-500 hover:to-sky-600 text-white rounded-md text-sm'
+    
+table.table-fixed.w-full.bg-white.shadow-sm.rounded-lg.overflow-hidden
+  thead.bg-sky-300.text-gray-600.uppercase.text-sm
+    tr
+      th.px-6.py-3.w-1/4.font-normal.text-left Câu hỏi
+      th.px-6.py-3.w-1/4.font-normal.text-left Câu trả lời
+      th.px-6.py-3.w-1/6.font-normal.text-left Danh mục
+      th.px-6.py-3.w-1/6.font-normal.text-left Trạng thái
+      th.px-6.py-3.w-1/6.font-normal.text-left Hành động
+
+  tbody
+    - @faqs.each do |faq|
+      tr.border-b.hover:bg-gray-50.border-gray-200
+        td.px-6.py-4.truncate.overflow-hidden.whitespace-nowrap.font-normal= faq.question
+        td.px-6.py-4.truncate.overflow-hidden.whitespace-nowrap.font-normal= faq.answer
+        td.px-6.py-4.font-normal= Faq::CATEGORIES[faq.category]
+
+        td.px-6.py-4.font-normal.capitalize
+          - status_class = faq.active? ? 'bg-green-200 text-green-800' : 'bg-red-200 text-red-800'
+          span.inline-block.py-1.px-3.rounded-full class=status_class
+            = faq.active? ? 'Hiện' : 'Ẩn'
+
+        td.px-6.py-4.flex.items-center.gap-3.text-lg.font-normal
+          = link_to edit_admin_faq_path(faq), class: 'text-yellow-500 hover:text-yellow-600', title: 'Chỉnh sửa' do
+            i.fas.fa-edit
+          = link_to admin_faq_path(faq), method: :delete, data: { confirm: 'Bạn chắc chắn muốn xoá câu hỏi này không?' }, class: 'text-red-500 hover:text-red-600', title: 'Xoá' do
+            i.fas.fa-trash
