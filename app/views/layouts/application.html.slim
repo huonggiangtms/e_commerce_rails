@@ -42,7 +42,8 @@ html
       - unless is_auth_page
         = render 'shared/footer'
 
-      = render 'shared/chatbot'
+      - if current_user
+        = render 'shared/chatbot'
 
     - if flash[:notice] || flash[:alert]
       div#flash.fixed.top-5.right-5.z-50.px-4.py-3.rounded-lg.shadow-lg.text-white.transition-opacity.duration-300 data-controller="flash" class=(flash[:notice] ? "bg-green-500" : "bg-red-500")

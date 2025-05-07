@@ -37,7 +37,6 @@ class ChatbotController < ApplicationController
             }
           end
 
-          # Lưu đoạn AI phản hồi
           @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
 
           render json: {
@@ -49,7 +48,6 @@ class ChatbotController < ApplicationController
       end
     end
 
-    # Trường hợp fallback: có FAQ hoặc có AI trả lời nhưng KHÔNG có sản phẩm gợi ý
     @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
 
     render json: { reply: bot_reply }
