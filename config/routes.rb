@@ -2,9 +2,11 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
+  root "home#index"
+
   resources :products
 
-  root "home#index"
+  resources :chatbot, only: [ :index, :create ]
 
   namespace :admin do
     root to: "dashboard#index"

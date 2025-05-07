@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_02_132705) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_05_031941) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -54,6 +54,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_02_132705) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "chatbot_conversations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chatbot_conversations_on_user_id"
+  end
+
+  create_table "chatbot_messages", force: :cascade do |t|
+    t.bigint "chatbot_conversation_id", null: false
+    t.string "sender"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["chatbot_conversation_id"], name: "index_chatbot_messages_on_chatbot_conversation_id"
   end
 
   create_table "crawl_jobs", force: :cascade do |t|
@@ -138,6 +154,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_02_132705) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "chatbot_conversations", "users"
+  add_foreign_key "chatbot_messages", "chatbot_conversations"
   add_foreign_key "products", "categories"
   add_foreign_key "products", "crawled_products"
 end

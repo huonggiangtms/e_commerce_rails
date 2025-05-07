@@ -9,11 +9,11 @@ html
     = csrf_meta_tags
     = csp_meta_tag
     = yield :head
+
     link[rel="icon" href="/icon.png" type="image/png"]
     link[rel="icon" href="/icon.svg" type="image/svg+xml"]
     link[rel="apple-touch-icon" href="/icon.png"]
     link[rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"]
-
 
     script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
 
@@ -35,11 +35,15 @@ html
         header
           = render 'shared/header'
 
+
       main.flex-1
         = yield
 
       - unless is_auth_page
         = render 'shared/footer'
-  - if flash[:notice] || flash[:alert]
-    div data-controller="flash" id="flash" class="fixed top-5 right-5 z-50 px-4 py-3 rounded-lg shadow-lg text-white transition-opacity duration-300" class=(flash[:notice] ? "bg-green-500" : "bg-red-500")
-      = flash[:notice] || flash[:alert]
+
+      = render 'shared/chatbot'
+
+    - if flash[:notice] || flash[:alert]
+      div#flash.fixed.top-5.right-5.z-50.px-4.py-3.rounded-lg.shadow-lg.text-white.transition-opacity.duration-300 data-controller="flash" class=(flash[:notice] ? "bg-green-500" : "bg-red-500")
+        = flash[:notice] || flash[:alert]
