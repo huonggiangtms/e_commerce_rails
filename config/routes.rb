@@ -6,10 +6,10 @@ Rails.application.routes.draw do
 
   resources :products
 
-  resources :chatbot, only: [:index, :create] do
+  resources :chatbot, only: [ :index, :create ] do
     get :load_more, on: :collection
   end
-  
+
   namespace :admin do
     root to: "dashboard#index"
     resources :users
