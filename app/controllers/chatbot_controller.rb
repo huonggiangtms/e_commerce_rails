@@ -3,8 +3,25 @@ class ChatbotController < ApplicationController
   before_action :set_conversation
 
   def index
-    @messages = @conversation.chatbot_messages.order(:created_at)
     @faqs = Faq.all
+    @messages = @conversation.chatbot_messages
+                     .order(created_at: :desc)
+                     .limit(20)
+
+                     @messages = @messages.reverse
+  end
+
+  def load_more
+    page = params[:page]&.to_i || 2
+    per_page = 20
+    @messages = @conversation.chatbot_messages
+                     .order(created_at: :desc)
+                     .limit(per_page)
+                     .offset((page - 1) * per_page)
+                     
+    @messages = @messages.reverse
+
+    render json: @messages.map { |m| { sender: m.sender, content: m.content } }
   end
 
   def create
@@ -23,8 +40,8 @@ class ChatbotController < ApplicationController
       category = ChatService.extract_category(user_message)
       if category.present?
         suggested_products = Product.joins(:category)
-                                    .where("categories.name ILIKE ?", "%#{category}%")
-                                    .limit(5)
+                                   .where("categories.name ILIKE ?", "%#{category}%")
+                                   .limit(5)
 
         if suggested_products.any?
           product_list = suggested_products.map do |product|
