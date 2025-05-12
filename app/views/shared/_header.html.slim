@@ -1,10 +1,9 @@
 nav.bg-white.shadow
   .container.mx-auto.px-4.py-4.flex.items-center.justify-between
     // Logo
-    a.flex.items-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 href="#"
+    a.flex.items-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 href=root_path
       i.fas.fa-robot.text-cyan-500
       span ZShop
-
 
     // Menu chính giữa
     ul.flex.space-x-10.text-gray-700.text-base.items-center
@@ -24,16 +23,19 @@ nav.bg-white.shadow
     // Icons bên phải
     .flex.items-center.space-x-5.text-black.text-lg
       a.hover:text-blue-600.transition.duration-200.cursor-pointer href="#"
-        i.fas.fa-search
-      a.hover:text-blue-600.transition.duration-200.cursor-pointer href="#"
-        i.fas.fa-shopping-cart
+        i.fas.fa-search.text-2xl
+      a.relative.hover:text-blue-600.transition.duration-200.cursor-pointer href=cart_path
+        i.fas.fa-shopping-cart.text-2xl
+        - if @cart.present? && @cart.cart_items.count > 0
+          span.absolute.-top-2.-right-2.bg-red-500.text-white.text-xs.font-semibold.rounded-full.h-5.w-5.flex.items-center.justify-center
+            = @cart.cart_items.count
       - if user_signed_in?
         .relative.group
-          button.flex.items-center.gap-3.text-sm.font-medium.focus:outline-none
-            .w-8.h-8.flex.items-center.justify-center.rounded-full.bg-blue-500.text-white.uppercase.font-bold
+          button.flex.items-center.gap-3.text-base.mb-3.font-medium.px-2.py-1.rounded-md.hover:bg-gray-100.transition
+            .w-9.h-9.flex.items-center.justify-center.rounded-full.bg-blue-500.text-white.uppercase.font-bold.text-sm
               = current_user.email.first
 
-            i.fas.fa-chevron-down.text-xs
+            i.fas.fa-chevron-down.text-xl
 
           ul.absolute.right-0.mt-2.w-44.bg-white.text-gray-800.rounded-md.shadow-lg.opacity-0.group-hover:opacity-100.transition-all.z-50
             li

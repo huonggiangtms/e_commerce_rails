@@ -1,53 +1,57 @@
 .section.py-12.bg-white
   .max-w-7xl.mx-auto.px-4.grid.grid-cols-1.md:grid-cols-2.gap-12
-
     .relative
       .absolute.top-0.left-0.mt-4.ml-4
         = link_to products_path, class: "text-gray-800 font-semibold py-2 px-6 hover:text-sky-500" do
           i.fa.fa-arrow-left.mr-2
       = image_tag @product.image_url, alt: @product.name, class: "w-full h-auto object-contain max-h-[550px] rounded-lg"
-
     .space-y-6
       h1.text-3xl.font-bold.text-gray-900= @product.name
       .flex.items-center.space-x-1
         - 5.times do
           i.fa.fa-star.text-yellow-400
         span.text-sm.text-gray-500.ml-2 (124 đánh giá)
-
       p.text-2xl.text-red-600.font-semibold
-        = number_to_currency(@product.price, unit: "₫", delimiter: ".", format: "%n %u")
-
-      - if @product.stock > 0
-        p.text-green-600.text-sm.font-medium Còn hàng – Giao hàng nội thành 2H
-      - else
+        = number_to_currency(@product.price, unit: "₫", precision: 0, delimiter: ".")
+      - available_stock = @product.stock - current_user&.cart&.cart_items&.find_by(product: @product)&.quantity.to_i
+      - if @product.out_of_stock?
         p.text-red-600.text-sm.font-medium Hết hàng – Vui lòng chọn sản phẩm khác
-
+      - elsif @product.low_stock?
+        p.text-yellow-600.text-sm.font-medium Chỉ còn #{@product.stock} sản phẩm!
+      - else
+        p.text-green-600.text-sm.font-medium Còn hàng – Giao hàng nội thành 2H
       - if @product.category
         span.inline-block.bg-blue-100.text-blue-800.text-xs.font-semibold.px-3.py-1.rounded-full= @product.category.name
-
       ul.text-sm.text-gray-600.mt-2.space-y-1
-        li <strong>Thương hiệu:</strong> ZShop
-        li <strong>Bảo hành:</strong> 12 tháng
-        li <strong>Xuất xứ:</strong> Việt Nam
-
+        li
+          strong Thương hiệu:
+          | ZShop
+        li
+          strong Bảo hành:
+          | 12 tháng
+        li
+          strong Xuất xứ:
+          | Việt Nam
       h2.text-lg.font-semibold.text-gray-800.mt-4 Chi tiết sản phẩm
       p.text-gray-700.text-base.leading-relaxed.mt-1= @product.description
+      - if !@product.out_of_stock?
+        = form_with url: cart_cart_items_path, method: :post, class: "mt-6 flex items-center gap-4" do |f|
+          = f.hidden_field "cart_item[product_id]", value: @product.id
+          = f.number_field "cart_item[quantity]",
+            value: 1,
+            min: 1,
 
-      - if @product.stock > 0
-        = button_to "#", method: :get, class: "mt-6 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-md hover:shadow-lg"
-          i.fa.fa-cart-plus.mr-2
-          | Thêm vào giỏ hàng
+            class: "w-20 p-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-600"
+          = f.submit "Thêm vào giỏ hàng",
+            class: "bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-md hover:shadow-lg"
       - else
-        = button_to "#", method: :get, class: "mt-6 bg-gray-400 text-white font-semibold py-3 px-8 rounded-lg cursor-not-allowed"
-          i.fa.fa-cart-plus.mr-2
-          | Hết hàng
+        span.text-sm.bg-red-100.text-red-600.px-3.py-1.rounded-full Hết hàng
 
-  / --- Sản phẩm cùng loại ---
-  .mt-16
-    .max-w-6xl.mx-auto.bg-sky-50.p-6.rounded-lg.shadow
-      h2.text-2xl.font-bold.text-gray-800.mb-4 Sản phẩm cùng loại
-
-      .overflow-x-auto.flex.space-x-4.pb-2
-        - @related_products.each do |product|
-          .flex-none.w-64
-            = render partial: "shared/product_card", locals: { product: product }
+  -if @related_products.any?
+    .mt-16
+      .max-w-6xl.mx-auto.bg-sky-50.p-6.rounded-lg.shadow
+        h2.text-2xl.font-bold.text-gray-800.mb-4 Sản phẩm cùng loại
+        .overflow-x-auto.flex.space-x-4.pb-2
+          - @related_products.each do |product|
+            .flex-none.w-54
+              = render partial: "shared/product_card", locals: { product: product }

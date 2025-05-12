@@ -1,0 +1,58 @@
+.section.py-12.bg-white
+  .max-w-7xl.mx-auto.px-4
+    .relative.mb-8
+      = link_to products_path, class: "absolute left-0 flex items-center gap-2 text-gray-800 font-semibold hover:text-sky-500" do
+        i.fa.fa-arrow-left
+
+      h1.text-3xl.font-bold.text-sky-900.text-center.mx-auto Giỏ hàng của bạn
+
+    - if @cart_items.any?
+      .grid.grid-cols-1.lg:grid-cols-3.gap-6
+        .lg:col-span-2.space-y-4
+          - @cart_items.each do |item|
+            - available_stock = item.product.stock - (@cart.cart_items.where(product: item.product).sum(:quantity) - item.quantity)
+            .flex.items-center.justify-between.bg-white.shadow.rounded-xl.p-4
+              .flex.items-center.gap-4
+                = image_tag item.product.image_url, alt: item.product.name, class: "w-20 h-20 object-cover rounded-lg"
+                .flex.flex-col
+                  = link_to item.product.name, product_path(item.product), class: "text-gray-800 font-semibold hover:text-sky-400"
+
+              .flex.items-center.gap-6
+                = form_with url: cart_cart_item_path(item), method: :patch, class: "flex items-center" do |f|
+                  = f.number_field "cart_item[quantity]",
+                    value: item.quantity,
+                    min: 1,
+                    max: available_stock,
+                    class: "w-14 text-center border rounded-md border-gray-300"
+
+                .flex.justify-between.items-center
+                  span.text-sky-500.font-semibold.w-24.text-right = number_to_currency(item.price, unit: "₫", precision: 0, delimiter: ".")
+
+                = button_to cart_cart_item_path(item), method: :delete, data: { turbo_confirm: "Bạn có chắc muốn xóa sản phẩm này?" }, class: "text-red-600 hover:text-red-800" do
+                  i.fas.fa-trash.text-lg
+
+        .bg-gray-50.p-6.rounded-xl.shadow.space-y-4.h-fit
+          h2.text-lg.font-bold.text-gray-800 Thông tin đơn hàng
+
+          .flex.justify-between.text-sm.text-gray-700
+            span Tổng tiền
+            span = number_to_currency(@cart.total_price, unit: "₫", precision: 0, delimiter: ".")
+
+          .flex.justify-between.text-sm.text-gray-700
+            span Tổng khuyến mãi
+            span 0
+
+          hr
+
+          .flex.justify-between.text-lg.font-bold.text-sky-500
+            span Cần thanh toán
+            span = number_to_currency(@cart.total_price, unit: "₫", precision: 0, delimiter: ".")
+
+          .text-right
+            = link_to "Thanh toán", "#", class: "w-full inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center"
+
+    - else
+      .text-center.py-12
+        i.fa-solid.fa-cart-shopping.text-6xl.text-gray-300.mb-4
+        p.text-gray-600.text-lg Giỏ hàng của bạn đang trống. Hãy thêm sản phẩm để tiếp tục mua sắm!
+        = link_to "Tiếp tục mua sắm", products_path, class: "mt-4 inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-8 rounded-lg transition-all shadow-md hover:shadow-lg"

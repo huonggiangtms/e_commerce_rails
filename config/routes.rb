@@ -6,6 +6,10 @@ Rails.application.routes.draw do
 
   resources :products
 
+  resource :cart, only: [ :show ] do
+    resources :cart_items, only: [ :create, :update, :destroy ]
+  end
+
   resources :chatbot, only: [ :index, :create ] do
     get :load_more, on: :collection
   end

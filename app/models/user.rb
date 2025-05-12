@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :chatbot_conversations, dependent: :destroy
+  has_one :cart, dependent: :destroy
   rolify
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
