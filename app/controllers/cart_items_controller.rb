@@ -11,7 +11,7 @@ class CartItemsController < ApplicationController
     new_quantity = current_quantity + quantity_to_add
 
     if new_quantity > product.stock
-      flash[:alert] = "Sản phẩm này hiện chỉ còn #{product.stock} sản phẩm trong kho. Bạn đã có #{current_quantity} 
+      flash[:alert] = "Sản phẩm này hiện chỉ còn #{product.stock} sản phẩm trong kho. Bạn đã có #{current_quantity}
       sản phẩm trong giỏ, không thể thêm thêm #{quantity_to_add} sản phẩm nữa."
     else
       cart_item.quantity = new_quantity
