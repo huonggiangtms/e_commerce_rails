@@ -152,7 +152,6 @@ export default class extends Controller {
         },
       });
       const data = await response.json();
-      console.log("API response for page", nextPage, ":", data);
 
       if (data.messages && data.messages.length > 0) {
         const previousScrollHeight = this.messagesTarget.scrollHeight;
@@ -168,7 +167,6 @@ export default class extends Controller {
             }" data-message-id="${message.id}" data-created-at="${message.created_at}">${message.content}</div>`;
             this.messagesTarget.insertBefore(div, this.messagesTarget.firstChild);
             this.loadedMessageIds.add(message.id.toString());
-            console.log(`Loaded message: id=${message.id}, sender=${message.sender}, content=${message.content}, created_at=${message.created_at}`);
           }
         });
 
