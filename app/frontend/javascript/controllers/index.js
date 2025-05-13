@@ -8,3 +8,5 @@ import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
+import ChatbotController from "./chatbot_controller"
+application.register("chatbot", ChatbotController)

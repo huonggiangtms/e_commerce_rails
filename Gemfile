@@ -61,3 +61,5 @@ gem "sidekiq-scheduler"
 gem "redis"
 
 gem "ransack"
+
+gem "kaminari"

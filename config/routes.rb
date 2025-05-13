@@ -2,9 +2,16 @@ Rails.application.routes.draw do
   devise_for :users, controllers: {
     registrations: "users/registrations"
   }
+  root "home#index"
+
   resources :products
 
-  root "home#index"
+  resource :cart, only: [ :show ] do
+    resources :cart_items, only: [ :create, :update, :destroy ]
+  end
+
+  resources :chatbot, only: [ :index, :create ]
+  resources :load_mores, only: [ :index ]
 
   namespace :admin do
     root to: "dashboard#index"

@@ -1,0 +1,32 @@
+div#chatbot-widget.fixed.bottom-4.right-4.z-50.flex.flex-col.items-end data-controller="chatbot" data-chatbot-target="widget"
+  button.bg-gradient-to-r.from-cyan-500.to-blue-600.text-white.px-4.py-4.rounded-full.hover:scale-105.transition-transform.flex.flex-col.items-center data-action="click->chatbot#toggle"
+    i.fas.fa-robot.text-white.text-xl
+    span.text-xs.font-semibold.mt-1 ZShop
+
+  div.hidden.flex.flex-col.w-96.bg-white.rounded-xl.absolute.right-full.bottom-4.mr-4 data-chatbot-target="chatbox"
+    div.p-4.bg-sky-100.rounded-t-xl.flex.items-center.gap-2
+      i.fas.fa-robot.text-cyan-500.text-2xl
+      h2.text-xl.font-bold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 ZShop AI xin chào
+
+    div.flex-1.p-4.overflow-y-auto.max-h-96.min-h-96.space-y-2 data-chatbot-target="messages" style="display: flex; flex-direction: column;"
+      - if current_user
+        - conversation = current_user.chatbot_conversations.last
+        - if conversation.present?
+          - conversation.chatbot_messages.order(created_at: :desc).page(1).per(20).reverse_each do |msg|
+            - is_user = msg.sender == 'user'
+            div class=(is_user ? "text-right" : "text-left")
+              div class=(is_user ? "inline-block px-2 py-2 rounded-lg bg-sky-100 text-sky-800 max-w-3/4 text-left" : "inline-block px-2 py-2 rounded-lg bg-gray-100 text-gray-800 max-w-3/4") data-message-id=msg.id data-created-at=msg.created_at
+                = msg.content
+
+    div.overflow-x-auto.px-4.pb-2.m-2
+      div.inline-flex.gap-2.min-w-max
+        - faqs = @faqs || Faq.where(active: true)
+        - if faqs.any?
+          - faqs.each do |faq|
+            button.text-sm.bg-sky-200.rounded-full.px-3.py-1.text-gray-700.cursor-pointer.hover:bg-sky-300.transition.whitespace-nowrap data-action="click->chatbot#suggest" data-message=faq.question
+              = faq.question
+
+    div.p-2.flex.items-center.bg-sky-50.rounded-b-xl
+      input.flex-1.border.border-gray-300.rounded-full.px-4.py-2.mr-2.focus:outline-none.focus:ring-2.focus:ring-blue-500 data-chatbot-target="input" type="text" placeholder="Nhập tin nhắn..."
+      button.bg-sky-500.text-white.px-3.py-2.rounded-full.shadow-md.hover:bg-sky-600.transition data-action="click->chatbot#send"
+        i.fas.fa-paper-plane.text-xl
