@@ -6,29 +6,14 @@ class ChatbotController < ApplicationController
     @faqs = Faq.all
     @messages = @conversation.chatbot_messages
                      .order(created_at: :desc)
-                     .limit(20)
-
-                     @messages = @messages.reverse
-  end
-
-  def load_more
-    page = params[:page]&.to_i || 2
-    per_page = 20
-    @messages = @conversation.chatbot_messages
-                     .order(created_at: :desc)
-                     .limit(per_page)
-                     .offset((page - 1) * per_page)
-
-    @messages = @messages.reverse
-
-    render json: @messages.map { |m| { sender: m.sender, content: m.content } }
+                     .page(params[:page]).per(20)
   end
 
   def create
     user_message = params[:message]
     return render json: { error: "Empty message" }, status: :bad_request if user_message.blank?
 
-    @conversation.chatbot_messages.create!(sender: "user", content: user_message)
+    user_msg = @conversation.chatbot_messages.create!(sender: "user", content: user_message)
 
     faq = Faq.find_by(question: user_message)
     if faq.present?
@@ -54,10 +39,12 @@ class ChatbotController < ApplicationController
             }
           end
 
-          @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
+          bot_msg = @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
 
           render json: {
+            user_message_id: user_msg.id,
             reply: bot_reply,
+            bot_message_id: bot_msg.id,
             suggested_products: product_list
           }
           return
@@ -65,9 +52,13 @@ class ChatbotController < ApplicationController
       end
     end
 
-    @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
+    bot_msg = @conversation.chatbot_messages.create!(sender: "bot", content: bot_reply)
 
-    render json: { reply: bot_reply }
+    render json: {
+      user_message_id: user_msg.id,
+      reply: bot_reply,
+      bot_message_id: bot_msg.id
+    }
   end
 
   private

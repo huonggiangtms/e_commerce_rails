@@ -10,9 +10,8 @@ Rails.application.routes.draw do
     resources :cart_items, only: [ :create, :update, :destroy ]
   end
 
-  resources :chatbot, only: [ :index, :create ] do
-    get :load_more, on: :collection
-  end
+  resources :chatbot, only: [ :index, :create ]
+  resources :load_mores, only: [ :index ]
 
   namespace :admin do
     root to: "dashboard#index"
