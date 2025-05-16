@@ -176,7 +176,7 @@ class OrdersController < ApplicationController
 
   def create_stripe_session
     @stripe_session = Stripe::Checkout::Session.create({
-      payment_method_types: ["card"],
+      payment_method_types: [ "card" ],
       line_items: @cart.cart_items.map do |item|
         {
           price_data: {
