@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 
   resources :orders, only: [ :new, :create, :show, :index ]
 
-
   namespace :admin do
     root to: "dashboard#index"
     resources :users
