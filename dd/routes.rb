@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   resources :chatbot, only: [ :index, :create ]
   resources :load_mores, only: [ :index ]
 
+  resources :orders, only: [ :new, :create, :show, :index ]
+
+
   namespace :admin do
     root to: "dashboard#index"
     resources :users
