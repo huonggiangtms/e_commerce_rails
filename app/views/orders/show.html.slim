@@ -58,8 +58,8 @@ div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-6"
               p class="text-right text-gray-900 font-semibold whitespace-nowrap" = number_to_currency(item.quantity * item.unit_price, unit: "₫", precision: 0, delimiter: ".")
 
   div class="flex flex-wrap gap-4 justify-end"
-    - if !@order.status.in?(%w[cancelled delivered paid])
-      = button_to "Huỷ đơn hàng", "#", method: :post, class: "bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 mt-6 ", disabled: (@order.status == "pending")
+    - if @order.can_request_cancellation?
+      = button_to "Huỷ đơn hàng", order_cancellations_path(order_id: @order.id), method: :post, class: "bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 mt-6", data: { turbo_confirm: "Bạn có chắc muốn hủy đơn hàng này?" }
     - if @order.status == "delivered"
       = button_to "Xác nhận đã nhận hàng", "#", method: :post, class: "bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 mt-6"
       = button_to "Yêu cầu hoàn hàng", "#", method: :post, class: "bg-yellow-100 text-yellow-700 px-4 py-2 rounded-md hover:bg-yellow-200 mt-6"
