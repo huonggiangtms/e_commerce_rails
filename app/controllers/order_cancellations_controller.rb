@@ -1,6 +1,6 @@
 class OrderCancellationsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_order, only: [:create]
+  before_action :set_order, only: [ :create ]
 
   def create
     if @order.can_request_cancellation?
