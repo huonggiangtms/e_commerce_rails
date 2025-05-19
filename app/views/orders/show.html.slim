@@ -1,0 +1,65 @@
+div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-6"
+  div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
+    div
+      h1 class="text-2xl font-bold mb-2 text-sky-600" Cảm ơn bạn đã đặt hàng tại ZShop!
+      p class="text-gray-700 mb-2" Đơn hàng của bạn đã được ghi nhận và đang được xử lý.
+
+      p class="text-gray-700 mb-4"
+        | Trạng thái đơn hàng:
+        span.ml-1.font-semibold.text-sky-600
+          - case @order.status
+          - when "pending"
+            = "Đang chờ thanh toán"
+          - when "paid"
+            = "Đã thanh toán, đang xử lý"
+          - when "failed"
+            = "Đã xảy ra lỗi"
+          - when "cancelled"
+            = "Đã huỷ"
+          - when "confirmed"
+            = "Đã xác nhận"
+          - when "delivered"
+            = "Đã giao"
+          - else
+            = "Không xác định"
+
+      div class="space-y-2 text-sm"
+        p
+          strong.text-gray-800 Mã đơn hàng:
+          span.ml-1.text-gray-600 = @order.id
+        p
+          strong.text-gray-800 Họ và tên:
+          span.ml-1.text-gray-600 = @order.name
+        p
+          strong.text-gray-800 Số điện thoại:
+          span.ml-1.text-gray-600 = @order.phone
+        p
+          strong.text-gray-800 Địa chỉ:
+          span.ml-1.text-gray-600 = @order.address
+        p
+          strong.text-gray-800 Phương thức thanh toán:
+          span.ml-1.text-gray-600 = @order.payment_method == "cod" ? "Thanh toán khi nhận hàng" : "Stripe"
+
+      div class="mt-4 p-4 bg-sky-50 rounded-md shadow-sm"
+        p class="text-lg font-semibold text-sky-600" Tổng tiền:
+        p class="text-xl font-bold text-sky-700" = number_to_currency(@order.total_price, unit: "₫", precision: 0, delimiter: ".")
+
+    div
+      h2 class="text-xl font-semibold text-gray-800 mb-3" Sản phẩm đã đặt
+
+      - if @order_items.any?
+        ul class="space-y-4"
+          - @order_items.each do |item|
+            li class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm"
+              = image_tag item.product.image_url, class: "w-20 h-20 object-cover rounded-md border border-sky-100"
+              div.flex-1
+                p class="text-gray-900 font-medium" = item.product.name
+                p class="text-sm text-gray-500" Số lượng: #{item.quantity}
+              p class="text-right text-gray-900 font-semibold whitespace-nowrap" = number_to_currency(item.quantity * item.unit_price, unit: "₫", precision: 0, delimiter: ".")
+
+  div class="flex flex-wrap gap-4 justify-end"
+    - if !@order.status.in?(%w[cancelled delivered paid])
+      = button_to "Huỷ đơn hàng", "#", method: :post, class: "bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 mt-6 ", disabled: (@order.status == "pending")
+    - if @order.status == "delivered"
+      = button_to "Xác nhận đã nhận hàng", "#", method: :post, class: "bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 mt-6"
+      = button_to "Yêu cầu hoàn hàng", "#", method: :post, class: "bg-yellow-100 text-yellow-700 px-4 py-2 rounded-md hover:bg-yellow-200 mt-6"

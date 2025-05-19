@@ -1,0 +1,51 @@
+div.max-w-6xl.mx-auto.p-6
+  h1.text-3xl.font-extrabold.mb-8.text-sky-700.text-center Lịch sử đơn hàng của bạn
+
+  - if @orders.any?
+    div.rounded-xl.shadow-lg.overflow-hidden
+      table.w-full.text-left.border-separate.border-spacing-0
+        thead.bg-sky-200
+          tr
+            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-45 Mã đơn hàng
+            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-64 Thông tin người nhận
+            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-60 Trạng thái
+            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm Tổng tiền
+            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-50 Ngày đặt
+        tbody.bg-white
+          - @orders.each do |order|
+            tr.hover:bg-sky-50.cursor-pointer.transition-colors.duration-200.ease-in-out onclick="window.location='#{order_path(order)}'"
+              td.border-b.border-sky-200.px-6.py-4.font-mono.text-sm.text-sky-900= order.id
+              td.border-b.border-sky-200.px-6.py-4.max-w-md
+                div.bg-white.shadow.rounded-md.p-4.space-y-2.max-w-xs.mx-auto
+                  div
+                    span.block.text-xs.font-medium.text-gray-400 Người nhận
+                    span.block.font-semibold.text-sky-900.truncate
+                      = order.name || "Chưa cập nhật"
+                  div
+                    span.block.text-xs.font-medium.text-gray-400 Số điện thoại
+                    span.block.font-semibold.text-sky-900.truncate
+                      = order.phone || "Chưa cập nhật"
+                  div
+                    span.block.text-xs.font-medium.text-gray-400 Địa chỉ
+                    span.block.font-semibold.text-sky-900.truncate
+                      = order.address || "Chưa cập nhật"
+              td.border-b.border-sky-200.px-6.py-4.text-sm.font-semibold
+                - case order.status
+                  - when "pending"
+                    span.text-sky-600 Đang chờ thanh toán
+                  - when "paid"
+                    span.text-sky-700 Đã thanh toán
+                  - when "failed"
+                    span.text-red-600 Lỗi thanh toán
+                  - when "cancelled"
+                    span.text-gray-500 Đã huỷ
+                  - when "confirmed"
+                    span.text-sky-800 Đã xác nhận
+                  - when "delivered"
+                    span.text-sky-900 Đã giao
+                  - else
+                    span.text-gray-400 Không xác định
+              td.border-b.border-sky-200.px-6.py-4.font-semibold.text-sky-900.text-sm= number_to_currency(order.total_price, unit: "₫", precision: 0, delimiter: ".")
+              td.border-b.border-sky-200.px-6.py-4.text-sm.text-sky-800= l(order.created_at, format: :short)
+  - else
+    p.text-center.text-sky-600.mt-12.text-lg Bạn chưa có đơn hàng nào ở ZShop. Hãy tiếp tục mua sắm tại ZShop nhé! Chúc bạn mua sắm vui vẻ!

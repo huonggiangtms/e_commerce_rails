@@ -49,7 +49,7 @@
             span = number_to_currency(@cart.total_price, unit: "₫", precision: 0, delimiter: ".")
 
           .text-right
-            = link_to "Mua ngay", "#", class: "w-full inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center"
+            = button_to "Mua ngay", new_order_path, method: :get, class: "w-full inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition-all text-center"
 
     - else
       .text-center.py-12

@@ -1,67 +1,72 @@
 nav.bg-white.shadow
   .container.mx-auto.px-4.py-4.flex.items-center.justify-between
-    // Logo
-    a.flex.items-center.gap-2.text-3xl.font-extrabold.bg-clip-text.text-transparent.bg-gradient-to-r.from-cyan-500.to-blue-600 href=root_path
+    / Logo
+    = link_to root_path, class: 'flex items-center gap-2 text-3xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-cyan-500 to-blue-600' do
       i.fas.fa-robot.text-cyan-500
       span ZShop
 
-    // Menu chính giữa
+    / Menu chính giữa
     ul.flex.space-x-10.text-gray-700.text-base.items-center
       li
-        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200.cursor-pointer href="#"
+        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200 href="#"
           i.fas.fa-users
           | Về chúng tôi
       li
-        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200.cursor-pointer href=products_path
+        = link_to products_path, class: 'flex items-center gap-2 px-3 py-2 rounded-md hover:text-blue-600 hover:bg-blue-50 transition duration-200' do
           i.fas.fa-box-open
           | Sản phẩm
       li
-        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200.cursor-pointer href="#"
+        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200 href="#"
           i.fas.fa-phone
           | Liên hệ
 
-    // Icons bên phải
+    / Icons bên phải
     .flex.items-center.space-x-5.text-black.text-lg
-      a.hover:text-blue-600.transition.duration-200.cursor-pointer href="#"
+      a.hover:text-blue-600.transition.duration-200 href="#"
         i.fas.fa-search.text-2xl
-      a.relative.hover:text-blue-600.transition.duration-200.cursor-pointer href=cart_path
+
+      = link_to cart_path, class: 'relative hover:text-blue-600 transition duration-200' do
         i.fas.fa-shopping-cart.text-2xl
         - if @cart.present? && @cart.cart_items.count > 0
           span.absolute.-top-2.-right-2.bg-red-500.text-white.text-xs.font-semibold.rounded-full.h-5.w-5.flex.items-center.justify-center
             = @cart.cart_items.count
+
       - if user_signed_in?
         .relative.group
-          button.flex.items-center.gap-3.text-base.mb-3.font-medium.px-2.py-1.rounded-md.hover:bg-gray-100.transition
+          .flex.items-center.gap-3.text-base.font-medium.px-2.py-1.rounded-md.hover:bg-gray-100.transition.cursor-pointer
             .w-9.h-9.flex.items-center.justify-center.rounded-full.bg-blue-500.text-white.uppercase.font-bold.text-sm
               = current_user.email.first
-
             i.fas.fa-chevron-down.text-xl
 
-          ul.absolute.right-0.mt-2.w-44.bg-white.text-gray-800.rounded-md.shadow-lg.opacity-0.group-hover:opacity-100.transition-all.z-50
+          ul.absolute.right-0.mt-2.w-52.bg-white.text-gray-800.rounded-md.shadow-lg.opacity-0.group-hover:opacity-100.transition-all.z-50
             li
               = link_to edit_user_registration_path, class: 'block px-4 py-2 hover:bg-gray-100' do
                 i.fas.fa-user.mr-2
-                | Profile
+                | Hồ sơ
+
+            li
+              = link_to orders_path, class: 'block px-4 py-2 hover:bg-gray-100 text-sky-500' do
+                i.fas.fa-box.mr-2
+                | Lịch sử đơn hàng
 
             - if current_user.has_role?(:admin)
               li
                 = link_to '/admin', class: 'block px-4 py-2 hover:bg-gray-100 text-yellow-500' do
                   i.fas.fa-tools.mr-2
-                  | Admin Panel
+                  | Trang quản trị
 
             li
               = link_to destroy_user_session_path,
                   data: { turbo_method: :delete, turbo_confirm: 'Are you sure?' },
                   class: 'block px-4 py-2 hover:bg-gray-100 text-red-500' do
                 i.fas.fa-sign-out-alt.mr-2
-                | Logout
+                | Đăng xuất
       - else
         ul.flex.items-center.space-x-4.bg-white.rounded-md.px-4.py-1.shadow
           li
             = link_to '/users/sign_up', class: 'text-blue-500 hover:text-blue-600 font-medium transition flex items-center gap-1' do
               i.fas.fa-user-plus
               | Sign Up
-
           li
             = link_to '/users/sign_in', class: 'text-gray-700 hover:text-gray-900 font-medium transition flex items-center gap-1' do
               i.fas.fa-sign-in-alt

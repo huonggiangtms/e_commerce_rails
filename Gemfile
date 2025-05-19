@@ -63,3 +63,5 @@ gem "redis"
 gem "ransack"
 
 gem "kaminari"
+
+gem "stripe"
