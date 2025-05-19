@@ -15,6 +15,8 @@ Rails.application.routes.draw do
 
   resources :orders, only: [ :new, :create, :show, :index ]
 
+  resources :order_cancellations, only: [ :create ]
+
   namespace :admin do
     root to: "dashboard#index"
     resources :users
@@ -32,5 +34,6 @@ Rails.application.routes.draw do
     resources :products
     resources :banners
     resources :faqs
+    resources :orders
   end
 end
