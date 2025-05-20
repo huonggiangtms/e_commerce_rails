@@ -3,7 +3,7 @@ default: &default
   encoding: unicode
   username: admin
   password: 1234
-  host: localhost
+  host: e_commerce_rails-db
   pool: 5
 
 development:
