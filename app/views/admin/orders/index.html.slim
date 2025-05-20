@@ -1,60 +1,61 @@
 div.max-w-7xl.mx-auto.p-6
-  h1.text-3xl.font-extrabold.mb-8.text-sky-700.text-center Danh sách đơn hàng
+  h1.text-3xl.font-bold.mb-8.text-gray-700.text-center Danh sách đơn hàng
 
   - if @orders.any?
     div.rounded-xl.shadow-lg.overflow-hidden
       table.w-full.text-left.border-separate.border-spacing-0
-        thead.bg-sky-200
+        thead.bg-sky-300.text-gray-700.uppercase.text-sm
           tr
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-55 Mã đơn hàng
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-64 Thông tin người nhận
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-60 Trạng thái
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-60 Yêu cầu hủy
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm Tổng tiền
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-45 Ngày đặt
-            th.px-7.py-4.text-sky-700.uppercase.font-semibold.text-sm.w-40 Hành động
+            th.px-6.py-3.font-normal.w-40 Mã đơn hàng
+            th.px-6.py-3.font-normal.w-64 Thông tin người nhận
+            th.px-6.py-3.font-normal.w-64 Trạng thái
+            th.px-6.py-3.font-normal.w-60 Yêu cầu hủy
+            th.px-6.py-3.font-normal.w-50 Tổng tiền
+            th.px-6.py-3.font-normal.w-40 Ngày đặt
+            th.px-6.py-3.font-normal.w-30 Hành động
 
         tbody.bg-white
           - @orders.each do |order|
             tr.hover:bg-sky-50.cursor-pointer.transition-colors.duration-200.ease-in-out
-              td.border-b.border-sky-200.px-6.py-4.font-mono.text-sm.text-sky-900= order.id
-              td.border-b.border-sky-200.px-6.py-4.max-w-md
+              td.border-b.border-sky-200.px-6.py-4.text-sm = order.id
+              td.border-b.border-sky-200.px-6.py-4.max-w-64
                 div.rounded-md.p-4.space-y-2.max-w-xs.mx-auto.border.border-sky-100
                   div
-                    span.block.text-xs.font-medium.text-gray-400 Người nhận
+                    span.block.text-xs.font-medium Người nhận
                     span.block.font-semibold.text-sky-900.truncate
                       = order.name || "Chưa cập nhật"
                   div
-                    span.block.text-xs.font-medium.text-gray-400 Số điện thoại
+                    span.block.text-xs.font-medium Số điện thoại
                     span.block.font-semibold.text-sky-900.truncate
                       = order.phone || "Chưa cập nhật"
                   div
-                    span.block.text-xs.font-medium.text-gray-400 Địa chỉ
+                    span.block.text-xs.font-medium Địa chỉ
                     span.block.font-semibold.text-sky-900.truncate
                       = order.address || "Chưa cập nhật"
-              td.border-b.border-sky-200.px-6.py-4.text-sm.font-semibold
+              td.border-b.border-sky-200.px-6.py-4.text-sm
                 - case order.status
                   - when "pending"
-                    span.text-sky-600 Đang chờ thanh toán
+                    span.inline-block.py-1.px-3.rounded-full.bg-yellow-100.text-yellow-800 Đang chờ thanh toán
                   - when "paid"
-                    span.text-sky-700 Đã thanh toán
+                    span.inline-block.py-1.px-3.rounded-full.bg-gray-100.text-gray-800 Đã thanh toán
                   - when "failed"
-                    span.text-red-600 Lỗi thanh toán
+                    span.inline-block.py-1.px-3.rounded-full.bg-pink-100.text-pink-800 Lỗi thanh toán
                   - when "cancelled"
-                    span.text-red-500 Đã huỷ
+                    span.inline-block.py-1.px-3.rounded-full.bg-red-100.text-red-800 Đã huỷ
                   - when "confirmed"
-                    span.text-sky-800 Đã xác nhận
+                    span.inline-block.py-1.px-3.rounded-full.bg-green-100.text-green-800 Đã xác nhận
                   - when "delivered"
-                    span.text-sky-900 Đã giao
+                    span.inline-block.py-1.px-3.rounded-full.bg-sky-100.text-sky-800 Đã giao
                   - else
-                    span.text-gray-400 Không xác định
-              td.border-b.border-sky-200.px-6.py-4.text-sm.font-semibold
-                - if order.cancellation_requested
-                  span.text-red-600 Yêu cầu hủy
-                - else
-                  span.text-gray-400 Không
-              td.border-b.border-sky-200.px-6.py-4.font-semibold.text-sky-900.text-sm= number_to_currency(order.total_price, unit: "₫", precision: 0, delimiter: ".")
-              td.border-b.border-sky-200.px-6.py-4.text-sm.text-sky-800= l(order.created_at, format: :short)
+                    span Không xác định
+
+              td.border-b.border-sky-200.px-6.py-4.text-sm
+                - status_class = order.cancellation_requested? ? 'bg-red-100 text-red-800' : 'bg-gray-100 text-ray-800'
+                span.inline-block.py-1.px-3.rounded-full class=status_class
+                  = order.cancellation_requested? ? ' Yêu cầu hủy' : 'Không'
+
+              td.border-b.border-sky-200.px-6.py-4.font-semibol.text-sm= number_to_currency(order.total_price, unit: "₫", precision: 0, delimiter: ".")
+              td.border-b.border-sky-200.px-6.py-4.text-sm = order.created_at.strftime('%d/%m/%Y')
               td.border-b.border-sky-200.px-6.py-4.h-full.text-lg.font-normal
                 div.flex.items-center.justify-center.gap-4
                   = link_to admin_order_path(order), class: 'text-sky-500 hover:text-sky-600', title: 'Xem' do

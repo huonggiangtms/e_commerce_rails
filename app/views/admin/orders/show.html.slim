@@ -85,7 +85,9 @@ div.max-w-5xl.mx-auto.p-6
         span.ml-2 = number_to_currency(@order.order_items.sum { |item| item.quantity * item.unit_price }, unit: "₫", precision: 0, delimiter: ".")
 
   div.flex.justify-between.items-center.mt-10
-    = link_to "← Quay lại danh sách", admin_orders_path, class: "text-sm text-sky-600 hover:underline"
+    = link_to admin_orders_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+        i.fas.fa-arrow-left.mr-2
+        | Quay lại danh sách
 
     - if @order.status.in?(%w[pending paid]) && !@order.cancellation_requested?
       = form_with model: [:admin, @order], method: :patch, local: true do |f|

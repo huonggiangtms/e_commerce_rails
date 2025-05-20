@@ -1,6 +1,6 @@
 div.max-w-3xl.mx-auto.bg-white.shadow-md.rounded-lg.p-8
   = form_with model: @faq, url: @faq.new_record? ? admin_faqs_path : admin_faq_path(@faq), local: true do |f|
-  
+
     - if @faq.errors.any?
       div.bg-red-100.border-l-4.border-red-500.text-red-700.p-4.mb-6.rounded
         div.font-bold.mb-2 Có lỗi xảy ra:
@@ -26,8 +26,8 @@ div.max-w-3xl.mx-auto.bg-white.shadow-md.rounded-lg.p-8
 
     / Nút hành động dưới cùng
     div.flex.justify-between.mt-10
-      = link_to admin_faqs_path, class: 'text-gray-600 hover:text-blue-600 flex items-center gap-2' do
+      = link_to admin_faqs_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
         i.fas.fa-arrow-left
-        | Quay lại
+        | Quay lại danh sách
 
       = f.submit 'Lưu', class: 'bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-6 rounded-lg'

@@ -1,65 +1,99 @@
-div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-lg mt-6"
-  div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8"
-    div
-      h1 class="text-2xl font-bold mb-2 text-sky-600" Cảm ơn bạn đã đặt hàng tại ZShop!
-      p class="text-gray-700 mb-2" Đơn hàng của bạn đã được ghi nhận và đang được xử lý.
+div.max-w-5xl.mx-auto.p-6
+  h1.text-3xl.font-extrabold.mb-6.text-sky-700.text-center Thông tin chi tiết đơn hàng
 
-      p class="text-gray-700 mb-4"
-        | Trạng thái đơn hàng:
-        span.ml-1.font-semibold.text-sky-600
+  div.grid.grid-cols-1.md:grid-cols-2.gap-6
+    div.bg-white.shadow-md.rounded-xl.p-6.space-y-6.border.border-sky-50
+      h2.text-xl.font-bold.text-sky-600.mb-4 Thông tin người nhận
+      dl.grid.grid-cols-1.md:grid-cols-2.gap-4.text-sm
+        dt.font-medium.text-gray-500 Tên người nhận
+        dd.text-sky-900
+          = @order.name || "Chưa cập nhật"
+
+        dt.font-medium.text-gray-500 Số điện thoại
+        dd.text-sky-900
+          = @order.phone || "Chưa cập nhật"
+
+        dt.font-medium.text-gray-500 Địa chỉ
+        dd.text-sky-900
+          = @order.address || "Chưa cập nhật"
+
+    div.bg-white.shadow-md.rounded-xl.p-6.space-y-6.border.border-sky-50
+      h2.text-xl.font-bold.text-sky-600.mb-4 Thông tin đơn hàng
+      dl.grid.grid-cols-1.md:grid-cols-2.gap-4.text-sm
+        dt.font-medium.text-gray-500 Mã đơn hàng
+        dd.text-sky-900
+          = @order.id
+
+        dt.font-medium.text-gray-500 Ngày đặt
+        dd.text-sky-900
+          = l(@order.created_at, format: :long)
+
+        dt.font-medium.text-gray-500 Trạng thái
+        dd.text-sky-900
           - case @order.status
           - when "pending"
-            = "Đang chờ thanh toán"
+            span.text-sky-600 Đang chờ thanh toán
           - when "paid"
-            = "Đã thanh toán, đang xử lý"
-          - when "failed"
-            = "Đã xảy ra lỗi"
-          - when "cancelled"
-            = "Đã huỷ"
+            span.text-sky-700 Đã thanh toán
           - when "confirmed"
-            = "Đã xác nhận"
+            span.text-sky-800 Đã xác nhận
           - when "delivered"
-            = "Đã giao"
+            span.text-sky-900 Đã giao
+          - when "cancelled"
+            span.text-red-500 Đã huỷ
+          - when "failed"
+            span.text-red-600 Lỗi thanh toán
           - else
-            = "Không xác định"
+            span.text-gray-400 Không xác định
 
-      div class="space-y-2 text-sm"
-        p
-          strong.text-gray-800 Mã đơn hàng:
-          span.ml-1.text-gray-600 = @order.id
-        p
-          strong.text-gray-800 Họ và tên:
-          span.ml-1.text-gray-600 = @order.name
-        p
-          strong.text-gray-800 Số điện thoại:
-          span.ml-1.text-gray-600 = @order.phone
-        p
-          strong.text-gray-800 Địa chỉ:
-          span.ml-1.text-gray-600 = @order.address
-        p
-          strong.text-gray-800 Phương thức thanh toán:
-          span.ml-1.text-gray-600 = @order.payment_method == "cod" ? "Thanh toán khi nhận hàng" : "Stripe"
+        dt.font-medium.text-gray-500 Yêu cầu hủy
+        dd.text-sky-900
+          - if @order.cancellation_requested?
+            span.text-red-600 Yêu cầu hủy
+          - else
+            span.text-gray-400 Không
 
-      div class="mt-4 p-4 bg-sky-50 rounded-md shadow-sm"
-        p class="text-lg font-semibold text-sky-600" Tổng tiền:
-        p class="text-xl font-bold text-sky-700" = number_to_currency(@order.total_price, unit: "₫", precision: 0, delimiter: ".")
+        dt.font-medium.text-gray-500 Tổng tiền
+        dd.text-sky-900
+          = number_to_currency(@order.total_price, unit: "₫", precision: 0, delimiter: ".")
 
-    div
-      h2 class="text-xl font-semibold text-gray-800 mb-3" Sản phẩm đã đặt
+  - if @order.order_items.any?
+    div.bg-white.shadow-md.rounded-xl.p-6.space-y-4.mt-8.border.border-sky-50
+      h2.text-xl.font-bold.text-sky-600.mb-4 Sản phẩm trong đơn hàng
 
-      - if @order_items.any?
-        ul class="space-y-4"
-          - @order_items.each do |item|
-            li class="flex items-start gap-4 p-4 bg-gray-50 rounded-lg shadow-sm"
-              = image_tag item.product.image_url, class: "w-20 h-20 object-cover rounded-md border border-sky-100"
-              div.flex-1
-                p class="text-gray-900 font-medium" = item.product.name
-                p class="text-sm text-gray-500" Số lượng: #{item.quantity}
-              p class="text-right text-gray-900 font-semibold whitespace-nowrap" = number_to_currency(item.quantity * item.unit_price, unit: "₫", precision: 0, delimiter: ".")
+      div.space-y-4
+        - @order.order_items.each do |item|
+          div.flex.items-center.justify-between.border.border-sky-100.rounded-xl.p-4.shadow-sm
+            div.flex.items-center.space-x-4
+              - if item.product.image_url.present?
+                = image_tag item.product.image_url, class: "w-20 h-20 object-cover rounded border border-sky-50", alt: item.product.name
+              div
+                h3.font-semibold.text-sky-900.text-base = item.product.name
+                p.text-sm.text-gray-500
+                  | Số lượng:
+                  span.text-gray-700.ml-1 = item.quantity
 
-  div class="flex flex-wrap gap-4 justify-end"
-    - if @order.can_request_cancellation?
-      = button_to "Huỷ đơn hàng", order_cancellations_path(order_id: @order.id), method: :post, class: "bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200 mt-6", data: { turbo_confirm: "Bạn có chắc muốn hủy đơn hàng này?" }
-    - if @order.status == "delivered"
-      = button_to "Xác nhận đã nhận hàng", "#", method: :post, class: "bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200 mt-6"
-      = button_to "Yêu cầu hoàn hàng", "#", method: :post, class: "bg-yellow-100 text-yellow-700 px-4 py-2 rounded-md hover:bg-yellow-200 mt-6"
+            div.text-right.text-sm.text-gray-700
+              p
+                | Đơn giá:
+                span.text-sky-900.font-medium.ml-1 = number_to_currency(item.unit_price, unit: "₫", precision: 0, delimiter: ".")
+              p
+                | Tổng:
+                span.text-sky-900.font-semibold.ml-1 = number_to_currency(item.quantity * item.unit_price, unit: "₫", precision: 0, delimiter: ".")
+
+      div.mt-6.px-4.py-2.text-right.text-lg.font-semibold.text-sky-600
+        | Tổng tiền đơn hàng:
+        span.ml-2 = number_to_currency(@order.order_items.sum { |item| item.quantity * item.unit_price }, unit: "₫", precision: 0, delimiter: ".")
+
+  div.flex.justify-between.items-center.mt-10
+    = link_to orders_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+      i.fas.fa-arrow-left.mr-2
+      | Quay lại danh sách
+
+    div.flex.gap-4
+      - if @order.can_request_cancellation?
+        = button_to "Huỷ đơn hàng", order_cancellations_path(order_id: @order.id), method: :post, class: "bg-red-100 text-red-700 px-4 py-2 rounded-md hover:bg-red-200", data: { turbo_confirm: "Bạn có chắc muốn hủy đơn hàng này?" }
+
+      - if @order.status == "delivered"
+        = button_to "Xác nhận đã nhận hàng", "#", method: :post, class: "bg-green-100 text-green-700 px-4 py-2 rounded-md hover:bg-green-200"
+        = button_to "Yêu cầu hoàn hàng", "#", method: :post, class: "bg-yellow-100 text-yellow-700 px-4 py-2 rounded-md hover:bg-yellow-200"

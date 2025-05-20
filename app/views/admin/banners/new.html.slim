@@ -1,24 +1,28 @@
+h1.text-3xl.font-bold.text-gray-700.text-center.mb-6 Tạo mới banner
+
 = form_with model: [:admin, @banner], local: true, class: "max-w-md mx-auto bg-white p-6 rounded-lg shadow-md space-y-6" do |f|
   .mb-4
-    = f.label :title, class: "block text-gray-700 font-medium mb-2"
+    = f.label :title, 'Tiêu đề', class: "block text-gray-700 font-medium mb-2"
     = f.text_field :title, class: "w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 
   .mb-4
-    = f.label :description, class: "block text-gray-700 font-medium mb-2"
+    = f.label :description, 'Mô tả', class: "block text-gray-700 font-medium mb-2"
     = f.text_area :description, class: "w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 
   .mb-4
-    = f.label :image, class: "block text-gray-700 font-medium mb-2"
+    = f.label :image, 'Hình ảnh', class: "block text-gray-700 font-medium mb-2"
     = f.file_field :image, class: "w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-400"
 
   .mb-4
-    = f.label :active, 'Active Status', class: 'block text-lg font-medium text-gray-700'
+    = f.label :active, 'Hoạt động', class: 'block text-lg font-medium text-gray-700'
     .flex.items-center
       = f.check_box :active, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
-      = f.label :active, 'Activate Banner', class: 'ml-2 text-gray-700'
+      = f.label :active, 'Hoạt động', class: 'ml-2 text-gray-700'
 
 
   .flex.items-center.justify-between
-    = link_to admin_banners_path, class: "text-gray-600 hover:text-gray-800 text-xl" do
-      i.fas.fa-arrow-left
-    = f.submit "Create Banner", class: "inline-block bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded"
+    .flex.justify-start
+      = link_to admin_banners_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+        i.fas.fa-arrow-left.mr-2
+        | Quay lại danh sách
+    = f.submit "Tạo banner", class: "inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded"

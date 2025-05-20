@@ -1,22 +1,22 @@
-h1.text-2xl.font-semibold.text-gray-700.text-center.mb-6 List Users
+h1.text-3xl.font-bold.text-gray-700.text-center.mb-6 Danh sách người dùng
 
 table.table-fixed.mx-auto.w-3/5.bg-white.shadow-sm.rounded-lg.overflow-hidden
   thead.bg-sky-300.text-gray-600.uppercase.text-sm
     tr
       th.px-6.py-3.w-1/2.font-normal.text-left Email
-      th.px-6.py-3.w-1/4.font-normal.text-left Role
-      th.px-6.py-3.w-1/4.font-normal.text-left Actions
+      th.px-6.py-3.w-1/4.font-normal.text-left Phân quyền
+      th.px-6.py-3.w-1/4.font-normal.text-left Hành động
 
   tbody
     - @users.each do |user|
-      tr.border-b.hover:bg-gray-50.border-gray-200
+      tr.border-b.hover:bg-sky-50.border-gray-200
         td.px-6.py-4.overflow-hidden.whitespace-nowrap.font-normal= user.email
         td.px-6.py-4.font-normal= (user.roles.first&.name || "user").capitalize
 
         td.px-6.py-4.flex.items-center.gap-3.text-lg.font-normal
-          = link_to admin_user_path(user), class: 'text-blue-500 hover:text-blue-600', title: 'Detail' do
+          = link_to admin_user_path(user), class: 'text-sky-500 hover:text-sky-600', title: 'Detail' do
             i.fas.fa-eye
           = link_to edit_admin_user_path(user), class: 'text-yellow-500 hover:text-yellow-600', title: 'Edit' do
             i.fas.fa-edit
-          = button_to admin_user_path(user), method: :delete, class: 'text-red-500 hover:text-red-600', title: 'Delete', data: { turbo_confirm: 'Bạn có chắc muốn xoá người dùng này không?' } do
+          = button_to admin_user_path(user), method: :delete, class: 'text-red-500 hover:text-red-700', title: 'Delete', data: { turbo_confirm: 'Bạn có chắc muốn xoá người dùng này không?' } do
             i.fas.fa-trash
