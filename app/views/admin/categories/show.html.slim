@@ -14,8 +14,13 @@ div.bg-white.shadow-md.rounded-2xl.p-8.max-w-2xl.mx-auto.relative
       dt.text-sm.font-medium.text-gray-500 Ngày cập nhật
       dd.col-span-2.text-gray-900= @category.updated_at.strftime('%d/%m/%Y %H:%M')
 
-  div.mt-8.flex.justify-between.items-center
-    = link_to '← Quay lại', admin_categories_path, class: 'text-sm text-gray-600 hover:text-sky-400'
 
-    = link_to edit_admin_category_path(@category), class: 'text-yellow-500 hover:text-yellow-600 text-lg' do
-      i.fas.fa-edit
+  div.flex.flex-col.md:flex-row.justify-between.items-center.gap-4.hover:text-sky-400
+    = link_to admin_categories_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+      i.fas.fa-arrow-left.mr-2
+      | Quay lại danh sách
+    .flex.items-center.gap-3.text-xl
+      = link_to edit_admin_category_path(@category), class: 'text-yellow-500 hover:text-yellow-600 transition', title: 'Chỉnh sửa' do
+        i.fas.fa-edit
+      = link_to edit_admin_category_path(@category), method: :delete, data: { turbo_confirm: 'Xoá hoàn toàn danh mục này?' }, class: 'text-red-500 hover:text-red-700 transition', title: 'Xoá danh mục' do
+        i.fas.fa-trash

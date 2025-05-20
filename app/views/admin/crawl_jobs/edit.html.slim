@@ -16,5 +16,7 @@ h1.text-2xl.font-bold.mb-6.text-gray-800.text-center
       = f.label :active, "Kích hoạt", class: "text-sm font-medium text-gray-700"
 
     .flex.justify-between.items-center.mt-6
-      = link_to "← Quay lại danh sách", admin_crawl_jobs_path, class: "text-blue-600 hover:underline text-sm font-medium"
-      = f.submit "Cập nhật Crawl Job", class: "bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold px-5 py-2 rounded-md shadow-sm transition duration-150 ease-in-out"
+      = link_to admin_crawl_jobs_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+        i.fas.fa-arrow-left.mr-2
+        | Quay lại danh sách
+      = f.submit "Cập nhật Crawl Job", class: "bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-bold px-5 py-2 rounded-md shadow-sm transition duration-150 ease-in-out"

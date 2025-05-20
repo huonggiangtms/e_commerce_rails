@@ -8,7 +8,7 @@ nav.bg-white.shadow
     / Menu chính giữa
     ul.flex.space-x-10.text-gray-700.text-base.items-center
       li
-        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200 href="#"
+        a.flex.items-center.gap-2.px-3.py-2.rounded-md.hover:text-blue-600.hover:bg-blue-50.transition.duration-200 href=root_path
           i.fas.fa-users
           | Về chúng tôi
       li
@@ -20,13 +20,10 @@ nav.bg-white.shadow
           i.fas.fa-phone
           | Liên hệ
 
-    / Icons bên phải
     .flex.items-center.space-x-5.text-black.text-lg
-      a.hover:text-blue-600.transition.duration-200 href="#"
-        i.fas.fa-search.text-2xl
 
       = link_to cart_path, class: 'relative hover:text-blue-600 transition duration-200' do
-        i.fas.fa-shopping-cart.text-2xl
+        i.fas.fa-shopping-cart.text-2xl.mt-2
         - if @cart.present? && @cart.cart_items.count > 0
           span.absolute.-top-2.-right-2.bg-red-500.text-white.text-xs.font-semibold.rounded-full.h-5.w-5.flex.items-center.justify-center
             = @cart.cart_items.count

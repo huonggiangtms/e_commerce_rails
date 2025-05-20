@@ -7,5 +7,7 @@ div.bg-white.shadow-md.rounded-2xl.p-8.max-w-xl.mx-auto
       = f.text_field :name, class: 'mt-1 block w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-sky-300 focus:outline-none'
 
     div.mt-6.flex.justify-between.items-center
-      = link_to '← Quay lại', admin_categories_path, class: 'text-sm text-gray-600 hover:underline'
-      = f.submit 'Tạo mới', class: 'bg-sky-300 hover:bg-sky-400 text-white font-semibold px-4 py-2 rounded-lg transition'
+      = link_to admin_categories_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
+        i.fas.fa-arrow-left.mr-2
+        | Quay lại danh sách
+      = f.submit 'Tạo mới', class: 'bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold px-4 py-2 rounded-lg transition'

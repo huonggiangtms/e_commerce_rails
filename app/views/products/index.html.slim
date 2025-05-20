@@ -18,7 +18,7 @@
                   = check_box_tag "q[category_id_in][]", category.id, params.dig(:q, :category_id_in)&.include?(category.id.to_s), class: "h-4 w-4 text-blue-600"
                   span.text-sm= category.name
 
-            = f.submit "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 rounded-md text-sm transition"
+            = f.submit "Áp dụng", class: "w-full mt-6 bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-2 rounded-md text-sm transition"
 
       .col-span-12.md:col-span-9
 
@@ -29,7 +29,7 @@
               options_for_select(@sort_options, selected_sort),
               {},
               class: "border border-gray-300 rounded-md px-3 py-1 text-sm focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
-            = f.submit "Lọc", class: "px-4 py-1 text-sm bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white rounded-md"
+            = f.submit "Lọc", class: "px-4 py-1 text-sm bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white rounded-md"
 
         .grid.grid-cols-1.sm:grid-cols-2.lg:grid-cols-4.gap-6
           - @products.each do |product|

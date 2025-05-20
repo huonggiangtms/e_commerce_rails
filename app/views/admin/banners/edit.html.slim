@@ -1,29 +1,30 @@
-h1.text-3xl.font-bold.text-gray-700.text-center.mb-6 Edit Banner
+h1.text-3xl.font-bold.text-gray-700.text-center.mb-6 Chỉnh sửa banner
 
 = form_with(model: @banner, url: admin_banner_path(@banner), method: :patch, local: true, html: { class: 'max-w-3xl mx-auto bg-white shadow-lg p-8 rounded-lg' }) do |f|
 
   .mb-6
-    = f.label :title, 'Banner Title', class: 'block text-lg font-medium text-gray-700'
+    = f.label :title, 'Tiêu đề', class: 'block text-lg font-medium text-gray-700'
     = f.text_field :title, class: 'mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
 
   .mb-6
-    = f.label :description, 'Banner Description', class: 'block text-lg font-medium text-gray-700'
+    = f.label :description, 'Mô tả', class: 'block text-lg font-medium text-gray-700'
     = f.text_area :description, class: 'mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm', rows: 4
 
   .mb-6
-    = f.label :image, 'Banner Image', class: 'block text-lg font-medium text-gray-700'
+    = f.label :image, 'Hình ảnh', class: 'block text-lg font-medium text-gray-700'
     = f.file_field :image, class: 'mt-1 block w-full text-sm text-gray-700 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500'
 
   .mb-6
-    = f.label :active, 'Active Status', class: 'block text-lg font-medium text-gray-700'
+    = f.label :active, 'Hoạt động', class: 'block text-lg font-medium text-gray-700'
     .flex.items-center
       = f.check_box :active, class: 'h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded'
-      = f.label :active, 'Activate Banner', class: 'ml-2 text-gray-700'
+      = f.label :active, 'Hoạt động', class: 'ml-2 text-gray-700'
 
   .mt-6.flex.items-center.justify-between
     .flex.justify-start
-      = link_to admin_banners_path, class: 'inline-block text-gray-700 hover:text-blue-500 flex items-center' do
+      = link_to admin_banners_path, class: 'inline-flex items-center text-sm text-sky-600 transition' do
         i.fas.fa-arrow-left.mr-2
+        | Quay lại danh sách
 
     .flex.justify-end
-      = f.submit 'Update Banner', class: 'inline-block bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-3 px-6 rounded-lg transition duration-300'
+      = f.submit 'Update Banner', class: 'inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-3 px-6 rounded-lg transition duration-300'

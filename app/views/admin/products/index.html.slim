@@ -1,19 +1,19 @@
 div.relative.mb-8
   h1.text-3xl.font-bold.text-gray-700.text-center Danh sách sản phẩm
 
-  = link_to 'Tạo mới', new_admin_product_path, class: 'bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold py-2 px-4 rounded-lg absolute right-0 top-1/2 transform -translate-y-1/2 mr-6'
+  = link_to 'Tạo mới', new_admin_product_path, class: 'bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg absolute right-0 top-1/2 transform -translate-y-1/2 mr-6'
 
 div.overflow-x-auto.mx-auto.max-w-7xl
   table.min-w-full.bg-white.shadow.rounded-lg.overflow-hidden
     thead.bg-sky-300.text-gray-700.uppercase.text-sm
       tr
-        th.px-6.py-4.text-left.font-semibold.w-24 Ảnh
-        th.px-6.py-4.text-left.font-semibold.w-64 Tên
-        th.px-6.py-4.text-left.font-semibold.w-32 Giá
-        th.px-6.py-4.text-left.font-semibold.w-40 Danh mục
-        th.px-6.py-4.text-left.font-semibold.w-32 Ngày crawl
-        th.px-6.py-4.text-left.font-semibold.w-32 Trạng thái
-        th.px-6.py-4.text-center.font-semibold.w-48 Hành động
+        th.px-6.py-4.text-left.font-normal.w-24 Ảnh
+        th.px-6.py-4.text-left.font-normal.w-64 Tên
+        th.px-6.py-4.text-left.font-normal.w-32 Giá
+        th.px-6.py-4.text-left.font-normal.w-40 Danh mục
+        th.px-6.py-4.text-left.font-normal.w-32 Ngày crawl
+        th.px-6.py-4.text-left.font-normal.w-32 Trạng thái
+        th.px-6.py-4.text-center.font-normal.w-48 Hành động
 
     tbody
       - @products.each do |product|
@@ -39,10 +39,10 @@ div.overflow-x-auto.mx-auto.max-w-7xl
             - else
               span.inline-block.py-1.px-3.rounded-full.bg-green-200.text-green-800.text-sm Còn hàng
 
-          td.px-6.py-4.flex.items-center.justify-center.gap-4.text-lg.font-normal
+          td.px-6.py-4.flex.items-center.justify-center.gap-4.text-lg.font-normal.mt-2
             = link_to admin_product_path(product), class: 'text-sky-500 hover:text-sky-600', title: 'Xem' do
               i.fas.fa-eye
-            = link_to edit_admin_product_path(product), class: 'text-yellow-400 hover:text-yellow-500', title: 'Chỉnh sửa' do
-              i.fas.fa-pen
-            = button_to admin_product_path(product), method: :delete, data: { turbo_confirm: 'Bạn có chắc muốn xoá sản phẩm này không?' }, class: 'text-red-400 hover:text-red-500' do
+            = link_to edit_admin_product_path(product), class: 'text-yellow-500 hover:text-yellow-600', title: 'Chỉnh sửa' do
+              i.fas.fa-edit
+            = button_to admin_product_path(product), method: :delete, data: { turbo_confirm: 'Bạn có chắc muốn xoá sản phẩm này không?' }, class: 'text-red-500 hover:text-red-700' do
               i.fas.fa-trash
