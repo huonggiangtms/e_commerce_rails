@@ -77,7 +77,7 @@ class OrdersController < ApplicationController
             selected_cart_item_ids = session["metadata"]["cart_item_ids"].split(",").map(&:to_i)
             selected_cart_items = cart.cart_items.where(id: selected_cart_item_ids).includes(:product)
 
-            # Chẹck tồn kho trước khi tạo
+            # Check tồn kho trước khi tạo
             selected_cart_items.each do |cart_item|
               product = cart_item.product
               if product.stock < cart_item.quantity
