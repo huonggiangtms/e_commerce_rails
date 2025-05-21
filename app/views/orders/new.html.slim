@@ -1,14 +1,18 @@
 div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6 grid grid-cols-1 md:grid-cols-2 gap-8"
   div
     h2 class="text-2xl font-bold mb-6 text-gray-800" Tóm tắt đơn hàng
-    ul class="divide-y divide-gray-200"
-      - @cart_items.each do |item|
-        li class="py-4 flex items-center space-x-4"
-          img src=item.product.image_url alt=item.product.name class="w-16 h-16 object-cover rounded"
-          div class="flex-1"
-            p class="text-gray-900 font-medium" = item.product.name
-            p class="text-sm text-gray-500" Số lượng: #{item.quantity}
-          p class="text-gray-900 font-semibold" = number_to_currency(item.quantity * item.product.price, unit: "₫", precision: 0, delimiter: ".")
+    - if @cart_items.any?
+      ul class="divide-y divide-gray-200"
+        - @cart_items.each do |item|
+          li class="py-4 flex items-center space-x-4"
+            img src=item.product.image_url alt=item.product.name class="w-16 h-16 object-cover rounded"
+            div class="flex-1"
+              p class="text-gray-900 font-medium" = item.product.name
+              p class="text-sm text-gray-500" Số lượng: #{item.quantity}
+            p class="text-gray-900 font-semibold" = number_to_currency(item.quantity * item.product.price, unit: "₫", precision: 0, delimiter: ".")
+    - else
+      p class="text-gray-600 text-lg" Không có sản phẩm nào được chọn để thanh toán.
+      = link_to "Quay lại giỏ hàng", cart_path, class: "mt-4 inline-block bg-gradient-to-r from-cyan-400 to-blue-500 hover:from-cyan-500 hover:to-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition-all shadow-md hover:shadow-lg"
 
     div class="mt-6 border-t pt-4 border-sky-200"
       div class="flex justify-between items-center"
@@ -17,11 +21,10 @@ div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6 grid grid-co
 
   div
     h2 class="text-2xl font-bold mb-6 text-gray-800" Thông tin nhận hàng
-
     = form_with model: @order, url: orders_path, class: "space-y-6", data: { controller: "order-form", turbo: false } do |form|
       - if @order.errors.any?
         div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"
-          h2 class="font-semibold" = "#{pluralize(@order.errors.count, 'lỗi','lỗi')} ngăn đơn hàng được lưu"
+          h2 class="font-semibold" = "#{pluralize(@order.errors.count, 'lỗi')} ngăn đơn hàng được lưu"
           ul class="list-disc pl-5"
             - @order.errors.full_messages.each do |message|
               li = message
@@ -38,17 +41,17 @@ div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6 grid grid-co
 
       div
         = form.label :province, "Tỉnh/Thành phố", class: "block mb-1 text-sm font-semibold text-gray-700"
-        = select_tag :province, options_for_select([]), class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "province", action: "change->order-form#fetchDistricts" }
+        = select_tag :province, options_for_select(@provinces || []), include_blank: "Chọn tỉnh/thành phố", class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "province", action: "change->order-form#fetchDistricts" }
         div data-order-form-target="provinceError" class="text-red-600 text-sm mt-1 hidden"
 
       div
         = form.label :district, "Quận/Huyện", class: "block mb-1 text-sm font-semibold text-gray-700"
-        = select_tag :district, options_for_select([]), class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "district", action: "change->order-form#fetchWards" }
+        = select_tag :district, options_for_select(@districts || []), include_blank: "Chọn quận/huyện", class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "district", action: "change->order-form#fetchWards" }
         div data-order-form-target="districtError" class="text-red-600 text-sm mt-1 hidden"
 
       div
         = form.label :ward, "Phường/Xã", class: "block mb-1 text-sm font-semibold text-gray-700"
-        = select_tag :ward, options_for_select([]), class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "ward" }
+        = select_tag :ward, options_for_select(@wards || []), include_blank: "Chọn phường/xã", class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition", data: { order_form_target: "ward" }
         div data-order-form-target="wardError" class="text-red-600 text-sm mt-1 hidden"
 
       div
@@ -60,8 +63,10 @@ div class="max-w-5xl mx-auto p-6 bg-white rounded-lg shadow-md mt-6 grid grid-co
       div
         = form.label :payment_method, "Phương thức thanh toán", class: "block mb-1 text-sm font-semibold text-gray-700"
         = form.select :payment_method,
-            options_for_select([['Thanh toán khi nhận hàng (COD)', 'cod'], ['Thanh toán qua Stripe', 'stripe']]), {},
+            options_for_select([["Thanh toán khi nhận hàng (COD)", "cod"], ["Thanh toán qua Stripe", "stripe"]], @order.payment_method || "cod"), {},
             class: "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"
+
+      = form.hidden_field :cart_item_ids, value: @cart_items.pluck(:id).join(","), data: { order_form_target: "cartItemIds" }
 
       div
         = form.submit "Đặt hàng", class: "w-full bg-gradient-to-r from-cyan-300 to-blue-400 hover:from-cyan-400 hover:to-blue-500 text-white py-2 px-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition", data: { action: "click->order-form#validateForm" }

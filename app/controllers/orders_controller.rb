@@ -8,7 +8,12 @@ class OrdersController < ApplicationController
   def new
     @cart = current_user.cart
     @order = Order.new
-    @cart_items = @cart.cart_items.includes(:product)
+    selected_cart_item_ids = params[:cart_item_ids]&.map(&:to_i) || @cart.cart_items.pluck(:id)
+    @cart_items = @cart.cart_items.includes(:product).where(id: selected_cart_item_ids)
+    if @cart_items.empty?
+      flash[:alert] = "Vui lòng chọn ít nhất một sản phẩm để đặt hàng."
+      redirect_to cart_path and return
+    end
     @total_price = @cart_items.sum { |item| item.quantity * item.product.price }
   end
 
@@ -69,34 +74,33 @@ class OrdersController < ApplicationController
             Rails.logger.info "Cập nhật trạng thái đơn hàng #{order.id} thành 'paid'"
 
             cart = order.cart
-            if cart.present?
-              # Check tồn kho trước khi tạo
-              cart.cart_items.includes(:product).each do |cart_item|
-                product = cart_item.product
-                if product.stock < cart_item.quantity
-                  Rails.logger.error "Sản phẩm #{product.name} không đủ tồn kho: Yêu cầu #{cart_item.quantity}, tồn kho #{product.stock}"
-                  raise ActiveRecord::Rollback, "Sản phẩm #{product.name} không đủ tồn kho"
-                end
+            selected_cart_item_ids = session["metadata"]["cart_item_ids"].split(",").map(&:to_i)
+            selected_cart_items = cart.cart_items.where(id: selected_cart_item_ids).includes(:product)
+
+            # Check tồn kho trước khi tạo
+            selected_cart_items.each do |cart_item|
+              product = cart_item.product
+              if product.stock < cart_item.quantity
+                Rails.logger.error "Sản phẩm #{product.name} không đủ tồn kho: Yêu cầu #{cart_item.quantity}, tồn kho #{product.stock}"
+                raise ActiveRecord::Rollback, "Sản phẩm #{product.name} không đủ tồn kho"
               end
-
-              # Tạo OrderItem và cập nhật tồn kho
-              cart.cart_items.includes(:product).each do |cart_item|
-                OrderItem.create!(
-                  order_id: order.id,
-                  product_id: cart_item.product_id,
-                  quantity: cart_item.quantity,
-                  unit_price: cart_item.product.price.to_i
-                )
-
-                cart_item.product.update!(stock: cart_item.product.stock - cart_item.quantity)
-                Rails.logger.info "Giảm tồn kho sản phẩm #{cart_item.product.name}: #{cart_item.quantity}"
-              end
-
-              cart.cart_items.destroy_all
-              Rails.logger.info "Xoá giỏ hàng cho đơn hàng #{order.id}"
-            else
-              Rails.logger.warn "Đơn hàng #{order.id} không có giỏ hàng liên kết"
             end
+
+            # Tạo OrderItem và cập nhật tồn kho
+            selected_cart_items.each do |cart_item|
+              OrderItem.create!(
+                order_id: order.id,
+                product_id: cart_item.product_id,
+                quantity: cart_item.quantity,
+                unit_price: cart_item.product.price.to_i
+              )
+
+              cart_item.product.update!(stock: cart_item.product.stock - cart_item.quantity)
+              Rails.logger.info "Giảm tồn kho sản phẩm #{cart_item.product.name}: #{cart_item.quantity}"
+            end
+
+            selected_cart_items.destroy_all
+            Rails.logger.info "Xoá các cart_item đã chọn cho đơn hàng #{order.id}"
           end
         rescue StandardError => e
           Rails.logger.error "Lỗi xử lý đơn hàng #{order.id}: #{e.message}"
@@ -118,14 +122,20 @@ class OrdersController < ApplicationController
     @order = Order.new(order_params)
     @order.user_id = current_user.id
     @order.cart_id = @cart.id
-    @total_price = @cart.cart_items.sum { |item| item.quantity * item.product.price }
+    selected_cart_item_ids = params[:order][:cart_item_ids]&.split(",")&.map(&:to_i) || @cart.cart_items.pluck(:id)
+    @cart_items = @cart.cart_items.where(id: selected_cart_item_ids).includes(:product)
+    if @cart_items.empty?
+      flash[:alert] = "Vui lòng chọn ít nhất một sản phẩm để đặt hàng."
+      redirect_to cart_path and return
+    end
+    @total_price = @cart_items.sum { |item| item.quantity * item.product.price }
     @order.total_price = @total_price
     @order.status = "pending"
 
     begin
       ActiveRecord::Base.transaction do
-        # Chẹck tồn kho
-        @cart.cart_items.includes(:product).each do |cart_item|
+        # Check tồn kho
+        @cart_items.each do |cart_item|
           product = cart_item.product
           if product.stock < cart_item.quantity
             Rails.logger.error "Sản phẩm #{product.name} không đủ tồn kho: Yêu cầu #{cart_item.quantity}, tồn kho #{product.stock}"
@@ -137,12 +147,12 @@ class OrdersController < ApplicationController
           Rails.logger.info "Lưu đơn hàng thành công: #{@order.id}"
 
           if @order.payment_method == "stripe"
-            create_stripe_session
+            create_stripe_session(selected_cart_item_ids)
             Rails.logger.info "Tạo phiên thanh toán Stripe với mã đơn hàng: #{@order.id}"
             redirect_to @stripe_session.url, allow_other_host: true
           else
             # Tạo OrderItem và cập nhật tồn kho
-            @cart.cart_items.each do |cart_item|
+            @cart_items.each do |cart_item|
               OrderItem.create!(
                 order_id: @order.id,
                 product_id: cart_item.product_id,
@@ -153,7 +163,7 @@ class OrdersController < ApplicationController
               cart_item.product.update!(stock: cart_item.product.stock - cart_item.quantity)
               Rails.logger.info "Giảm tồn kho sản phẩm #{cart_item.product.name}: #{cart_item.quantity}"
             end
-            @cart.cart_items.destroy_all
+            @cart_items.destroy_all
             redirect_to order_path(@order), notice: "Đặt hàng thành công với phương thức thanh toán khi nhận hàng (COD)."
           end
         else
@@ -163,7 +173,7 @@ class OrdersController < ApplicationController
       end
     rescue StandardError => e
       Rails.logger.error "Lỗi xử lý đơn hàng: #{e.message}"
-      @cart_items = @cart.cart_items.includes(:product)
+      @cart_items = @cart.cart_items.includes(:product).where(id: selected_cart_item_ids)
       @total_price = @cart_items.sum { |item| item.quantity * item.product.price }
       flash.now[:alert] = e.message
       render :new, status: :unprocessable_entity
@@ -174,17 +184,17 @@ class OrdersController < ApplicationController
     params.require(:order).permit(:name, :phone, :address, :payment_method)
   end
 
-  def create_stripe_session
+  def create_stripe_session(selected_cart_item_ids)
     @stripe_session = Stripe::Checkout::Session.create({
       payment_method_types: [ "card" ],
-      line_items: @cart.cart_items.map do |item|
+      line_items: @cart_items.map do |item|
         {
           price_data: {
             currency: "vnd",
             product_data: {
               name: item.product.name
             },
-            unit_amount: item.product.price.to_i
+            unit_amount: (item.product.price).to_i
           },
           quantity: item.quantity
         }
@@ -192,7 +202,8 @@ class OrdersController < ApplicationController
       mode: "payment",
       success_url: order_url(@order, host: "localhost:3000"),
       cancel_url: new_order_url(host: "localhost:3000"),
-      client_reference_id: @order.id.to_s
+      client_reference_id: @order.id.to_s,
+      metadata: { cart_item_ids: selected_cart_item_ids.join(",") }
     })
   end
 end
