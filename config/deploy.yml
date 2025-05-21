@@ -101,8 +101,8 @@ accessories:
       # clear:
       # MYSQL_ROOT_HOST: '%'
       secret:
-        - DB_PASSWORD
-        - DB_USERNAME
+        -  POSTGRES_USER
+        -  POSTGRES_PASSWORD
     # files:
     # - config/mysql/production.cnf:/etc/mysql/my.cnf
     # - db/production.sql:/docker-entrypoint-initdb.d/setup.sql
