@@ -1,10 +1,11 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
-  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  username: postgres
+  password: password
   host: e_commerce_rails-db
   pool: 5
+
 development:
   <<: *default
   database: e_commerce_rails_development
@@ -17,8 +18,8 @@ production:
   primary: &primary_production
     <<: *default
     database: e_commerce_rails_production
-    username: <%= ENV['POSTGRES_USER'] || 'postgres' %>
-    password: <%= ENV['POSTGRES_PASSWORD'] %>
+    username: postgres
+    password: password
   cache:
     <<: *primary_production
     database: e_commerce_rails_production_cache
