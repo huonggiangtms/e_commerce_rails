@@ -67,14 +67,6 @@ class OrdersController < ApplicationController
         return
       end
 
-      stripe_total = session["amount_total"].to_i
-      order_total = (order.total_price).to_i
-      unless stripe_total == order_total
-        Rails.logger.error "Tổng giá Stripe (#{stripe_total}) không khớp với đơn hàng (#{order_total})"
-        head :unprocessable_entity
-        return
-      end
-
       if order.status == "pending"
         begin
           ActiveRecord::Base.transaction do
@@ -85,7 +77,7 @@ class OrdersController < ApplicationController
             selected_cart_item_ids = session["metadata"]["cart_item_ids"].split(",").map(&:to_i)
             selected_cart_items = cart.cart_items.where(id: selected_cart_item_ids).includes(:product)
 
-            # Check tồn kho trước khi tạo
+            # Chẹck tồn kho trước khi tạo
             selected_cart_items.each do |cart_item|
               product = cart_item.product
               if product.stock < cart_item.quantity
