@@ -12,3 +12,5 @@ import ChatbotController from "./chatbot_controller"
 application.register("chatbot", ChatbotController)
 import OrderFormController from "./order_form_controller"
 application.register("order-form", OrderFormController)
+import CartController from "./cart_controller"
+application.register("cart", CartController)

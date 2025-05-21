@@ -2,6 +2,10 @@ class CartItemsController < ApplicationController
   before_action :set_cart
   before_action :set_cart_item, only: [ :update, :destroy ]
 
+  def show
+    render json: { product_price: @cart_item.product.price }
+  end
+
   def create
     product = Product.find(params[:cart_item][:product_id])
     quantity_to_add = params[:cart_item][:quantity].to_i
