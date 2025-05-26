@@ -47,11 +47,11 @@
       - else
         span.text-sm.bg-red-100.text-red-600.px-3.py-1.rounded-full Hết hàng
 
-  -if @related_products.any?
-    .mt-16
-      .max-w-6xl.mx-auto.bg-sky-50.p-6.rounded-lg.shadow
-        h2.text-2xl.font-bold.text-gray-800.mb-4 Sản phẩm cùng loại
-        .overflow-x-auto.flex.space-x-4.pb-2
+  - if @related_products.any?
+    .section.py-12.bg-gray-50.mt-10
+      .max-w-7xl.mx-auto.px-4
+        h2.text-2xl.font-bold.text-gray-800.mb-8.text-center Những sản phẩm tương tự
+
+        .grid.grid-cols-1.md:grid-cols-3.lg:grid-cols-5.gap-6
           - @related_products.each do |product|
-            .flex-none.w-54
-              = render partial: "shared/product_card", locals: { product: product }
+                = render partial: "shared/product_card", locals: { product: product }

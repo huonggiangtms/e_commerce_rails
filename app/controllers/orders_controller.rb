@@ -8,12 +8,13 @@ class OrdersController < ApplicationController
   def new
     @cart = current_user.cart
     @order = Order.new
-    selected_cart_item_ids = params[:cart_item_ids]&.map(&:to_i) || @cart.cart_items.pluck(:id)
+    selected_cart_item_ids = params[:cart_item_ids]&.map(&:to_i)
     @cart_items = @cart.cart_items.includes(:product).where(id: selected_cart_item_ids)
     if @cart_items.empty?
       flash[:alert] = "Vui lòng chọn ít nhất một sản phẩm để đặt hàng."
       redirect_to cart_path and return
     end
+
     @total_price = @cart_items.sum { |item| item.quantity * item.product.price }
   end
 
